@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.gis",
     # installed
     "ckeditor",
+    "django_browser_reload",
     # created
     "Shamba",
 ]
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "Ukulima.urls"
@@ -62,7 +64,7 @@ ROOT_URLCONF = "Ukulima.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR.joinpath("templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Shamba, LeasePeriod
+
+from .models import LeasePeriod, Land
 
 # Register your models here.
 
@@ -20,11 +21,11 @@ class LeasePeriodAdmin(admin.ModelAdmin):
     # ordering = ('',)
 
 
-@admin.register(Shamba)
-class ShambaAdmin(admin.ModelAdmin):
+@admin.register(Land)
+class LandAdmin(admin.ModelAdmin):
     """Admin View for ShAdmin"""
 
-    list_display = ("land_id",'shamba_id','location')
+    list_display = ("land_id", "shamba_id", "location")
     # list_filter = ('',)
     # inlines = [
     #     Inline,
@@ -33,4 +34,5 @@ class ShambaAdmin(admin.ModelAdmin):
     # readonly_fields = ('',)
     # search_fields = ('',)
     # date_hierarchy = ''
+    # ordering = ('',)
     # ordering = ('',)

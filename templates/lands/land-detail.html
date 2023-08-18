@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Lands Details
+{% endblock title %}
+    
+{% block content %}
+    <h1> iam details </h1>
+    <div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <p class="card-text">Owner: {{land.owner}} </p>
+    <p class="card-text">Land ID: {{land.land_id}} </p>
+    <p class="card-text">Shamba Id{{land.shamba_id}} </p>
+    <p class="card-text"> Locaation: {{land.location}}</p>
+    <p class="card-text">Size :{{land.size}} </p>
+    <p class="card-text">Climate :{{land.climate}} </p>
+    <p class="card-text">Previous Farming:{{land.previous_farming}} </p>
+    <p class="card-text">Water source:{{land.water_source}} </p>
+    <p class="card-text">Electricity source :{{land.electricity_source}} </p>
+    <p class="card-text"> Period lease{{land.period_lease }}</p>
+    <p class="card-text">Charge: {{land.charge}}</p>
+    <p class="card-text">Existing Infreacture: {{land.existing_infrastructure}}</p>
+    <p class="card-text">Recommend Farmin{{land.recommended_farming}} </p>
+    <p class="card-text"> Ceated: {{land.created}}</p>
+
+  </div>
+  <img src="..." class="card-img-bottom" alt="...">
+</div>
+{% endblock content %}
+    

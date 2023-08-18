@@ -1,13 +1,14 @@
-from datetime import time
 import hashlib
 import random
-from django.db import models
-from django.utils.translation import gettext as _
-from django.contrib.auth.models import User
 import uuid
-from django.contrib.gis.db import models
+from datetime import time
+
 # from .choices import PERIOD
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.contrib.gis.db import models
+from django.urls import reverse
+from django.utils.translation import gettext as _
 
 # Create your models here.
 
@@ -43,9 +44,9 @@ class LeasePeriod(models.Model):
     # TODO: Define custom methods here
 
 
-class Shamba(models.Model):
+class Land(models.Model):
 
-    """Model definition for Shamba."""
+    """Model definition for Lands."""
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     land_id = models.CharField(_("Land Id"), unique=True, max_length=12)
@@ -70,24 +71,24 @@ class Shamba(models.Model):
     # TODO: Define fields here
 
     class Meta:
-        """Meta definition for Shamba."""
+        """Meta definition for Land."""
 
-        verbose_name = "Shamba"
-        verbose_name_plural = "Shambas"
+        verbose_name = "Land"
+        verbose_name_plural = "Lands"
 
     def __str__(self):
-        """Unicode representation of Shamba."""
+        """Unicode representation of Land."""
         return self.land_id
 
     def save(self, *args, **kwargs):
-        """Save method for Shamba."""
+        """Save method for Land."""
         if not self.land_id:
             self.land_id = self.generate_land_id()
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        """Return absolute url for Shamba."""
-        return ""
+        """Return absolute url for Land."""
+        return reverse("land-details", kwargs={"slug": self.slug})
 
     # TODO: Define custom methods here
     def generate_land_id(self):
@@ -95,4 +96,5 @@ class Shamba(models.Model):
         random_num = random.randint((10000000, 99999999))
         unique_id = f"{timestamp}{random_num}"
         hashed_id = hashlib.sha256(unique_id.encode()).hexdigest()[:10]
+        return hashed_id
         return hashed_id
