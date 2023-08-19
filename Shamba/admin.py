@@ -25,7 +25,7 @@ class LeasePeriodAdmin(admin.ModelAdmin):
 class LandAdmin(admin.ModelAdmin):
     """Admin View for ShAdmin"""
 
-    list_display = ("land_id", "shamba_id", "location")
+    list_display = ("land_id", "shamba_id", "location_coordinates")
     # list_filter = ('',)
     # inlines = [
     #     Inline,
