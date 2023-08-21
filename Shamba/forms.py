@@ -1,3 +1,4 @@
+from django.contrib.gis import forms
 from django import forms
 
 from .models import Land, LandImages
@@ -95,14 +96,14 @@ class LandLocationForm(forms.ModelForm):
         )
 
 
-class LandCoordinatesForm(forms.ModelForm):
-    """Form definition for Land."""
+# class LandCoordinatesForm(forms.ModelForm):
+#     """Form definition for Land."""
 
-    class Meta:
-        """Meta definition for Landform."""
+#     class Meta:
+#         """Meta definition for Landform."""
 
-        model = Land
-        fields = ("location_coordinates",)
+#         model = Land
+#         fields = ("location_coordinates",)
 
 class LandImagesForm(forms.ModelForm):
     """Form definition for Land."""

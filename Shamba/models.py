@@ -1,7 +1,7 @@
 import hashlib
 import random
 import uuid
-from datetime import time
+import time
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
@@ -108,7 +108,7 @@ class Land(models.Model):
     # TODO: Define custom methods here
     def generate_land_id(self):
         timestamp = int(time.time() * 1000)
-        random_num = random.randint((10000000, 99999999))
+        random_num = random.randint(10000000, 99999999)
         unique_id = f"{timestamp}{random_num}"
         hashed_id = hashlib.sha256(unique_id.encode()).hexdigest()[:10]
         return hashed_id
@@ -144,9 +144,9 @@ class LandImages(models.Model):
         """Unicode representation of LandImages."""
         pass
 
-    def save(self):
-        """Save method for LandImages."""
-        pass
+    # def save(self):
+    #     """Save method for LandImages."""
+    #     pass
 
     def get_absolute_url(self):
         """Return absolute url for LandImages."""
