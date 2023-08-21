@@ -118,3 +118,36 @@ class LandImagesForm(forms.ModelForm):
         model = LandImages
         fields = ("images",)
 
+class LandUpdateForm(forms.ModelForm):
+    """Form definition for LandUpdate."""
+    images = forms.FileField(required=False,widget=forms.ClearableFileInput(attrs={
+        'required': False,
+        'class': 'form-control images',
+        # 'multiple': True)
+    })
+    )
+    class Meta:
+        """Meta definition for LandUpdateform."""
+
+        model = Land
+        fields = (
+            "shamba_id",
+            "size",
+            "charge",
+            "period_lease",
+            "climate",
+            "soil_type",
+            "water_source",
+            "electricity_source",
+            "recommended_farming",
+            "existing_infrastructure",
+            "previous_farming",
+            "existing_machinery",
+            "human_labour",
+            "county",
+            "sub_county",
+            "location",
+            "sub_location",
+            "village",
+            "location_coordinates",
+        )

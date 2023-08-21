@@ -29,5 +29,7 @@
   </div>
   <img src="..." class="card-img-bottom" alt="...">
 </div>
+<a href="{% url 'land-update' land.slug %}" class="btn btn-primary">Update land </a>
+<a href="{% url 'land-delete' land.slug %}" class="btn btn-danger">Delete land</a>
 {% endblock content %}
     

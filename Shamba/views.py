@@ -1,12 +1,19 @@
+from typing import Any
+from django import http
+from django.forms.models import BaseModelForm
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views.generic import DetailView, ListView,UpdateView,DeleteView
 from formtools.wizard.views import SessionWizardView
-from .forms import LandForm,LandLocationForm,LandResourcesForm,LandInfrastructureForm,LandImagesForm #LandCoordinatesForm,
+from .forms import LandForm,LandLocationForm,LandResourcesForm,LandInfrastructureForm,LandImagesForm,LandUpdateForm #LandCoordinatesForm,
 from .models import Land,LandImages
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import os
+from django.contrib import messages
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 
@@ -92,4 +99,48 @@ class LandWizard(SessionWizardView):
         )
         # land_images.land = land
         # land_images.save()
-        return HttpResponse("Form submitted")
+        # return HttpResponse("Form submitted")
+     # Redirect to the detail page using the reverse function
+        detail_url = reverse('land-details', kwargs={'slug':land.slug}) 
+        return redirect(detail_url)
+
+class LandUpdateView(UpdateView):
+    model = Land
+    template_name = "lands/land-update.html"
+    form_class = LandUpdateForm
+    
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.owner != self.request.user:
+            messages.error(request,"You dont have permission to edit this job")
+            return redirect(reverse('land-details',args=[obj.slug]))
+            
+        return super().dispatch(request, *args, **kwargs)
+    
+    
+    def form_valid(self, form):
+        land = form.save(commit=False)
+        images = self.request.FILES.getlist('images')
+        for image in images:
+            LandImages.objects.create(land=land,images=image)
+        self.object = form.save()
+        form.save_m2m()
+        return super(LandUpdateView,self).form_valid(form)
+
+class LandDeleteView(DeleteView):
+    model = Land
+    template_name = "lands/land-delete.html"
+    success_url =("land")
+    success_message ="Land updated"
+    
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.owner != self.request.user:
+            messages.error(request,"You dont have permission to Delete  this job")
+            return redirect(reverse('job-details',args=[obj.slug]))
+            # raise  PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super().delete(request, *args, **kwargs)

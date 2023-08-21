@@ -128,6 +128,8 @@ class LandImages(models.Model):
         # height_field=None,
         # width_field=None,
         # max_length=None,
+        null=True,
+        blank=True
     )
     updated = models.DateTimeField(
         auto_now=True,
