@@ -68,6 +68,7 @@ class LandWizard(SessionWizardView):
             size=land_data["size"],
             charge=land_data["charge"],
             period_lease=land_data["period_lease"],
+            type =land_data["type"],
             # form_list 2
             climate=land_resourse_data["climate"],
             soil_type=land_resourse_data["soil_type"],

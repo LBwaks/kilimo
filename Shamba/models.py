@@ -89,7 +89,7 @@ class Land(models.Model):
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     land_id = models.CharField(_("Land Id"), unique=True, max_length=12)
-    # category = models.ForeignKey(LandCategory, verbose_name=_("Category"), related_name="land_category",on_delete=models.CASCADE)
+    type = models.ForeignKey(LandCategory, verbose_name=_("Category"), related_name="land_category",on_delete=models.CASCADE)
     slug = models.UUIDField(default=uuid.uuid4, editable=False)
     shamba_id = models.CharField(_("Proof Of Ownership"), max_length=50)
     county = models.CharField(_("County"), choices=COUNTY, max_length=50)
