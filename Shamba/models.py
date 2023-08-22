@@ -8,11 +8,49 @@ from django.contrib.auth.models import User
 from django.contrib.gis.db import models
 from django.urls import reverse
 from django.utils.translation import gettext as _
-
+from django_extensions.db.fields import AutoSlugField
 from .choices import COUNTY, LOCATION, SUBCOUNTY, SUBLOCATION
 
 # Create your models here.
+class LandCategory(models.Model):
+    """Model definition for LandCategory."""
 
+    # TODO: Define fields here
+    user = models.ForeignKey(
+        User,
+        related_name="user_land_category",
+        on_delete=models.CASCADE,
+    )
+    type = models.CharField(max_length=50, unique=True)
+    slug = AutoSlugField(populate_from="type")
+    description = models.TextField(max_length=250)
+    is_published = models.BooleanField(default=True)
+    # objects = models.Manager()
+    # publishedCategory =CategoryManager()
+    is_featured = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        """Meta definition for LandCategory."""
+
+        verbose_name = 'LandCategory'
+        verbose_name_plural = 'LandCategorys'
+
+    def __str__(self):
+        """Unicode representation of LandCategory."""
+        return self.type
+
+    # def save(self):
+    #     """Save method for LandCategory."""
+    #     pass
+
+    def get_absolute_url(self):
+        """Return absolute url for LandCategory."""
+        return ('')
+
+    # TODO: Define custom methods here
+    def slugify_function(self, content):
+        return content.replace('_', '-').lower()
 
 class LeasePeriod(models.Model):
     """Model definition for LeasePeriod."""
@@ -51,6 +89,7 @@ class Land(models.Model):
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     land_id = models.CharField(_("Land Id"), unique=True, max_length=12)
+    # category = models.ForeignKey(LandCategory, verbose_name=_("Category"), related_name="land_category",on_delete=models.CASCADE)
     slug = models.UUIDField(default=uuid.uuid4, editable=False)
     shamba_id = models.CharField(_("Proof Of Ownership"), max_length=50)
     county = models.CharField(_("County"), choices=COUNTY, max_length=50)

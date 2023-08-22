@@ -1,10 +1,29 @@
+from typing import Any
 from django.contrib import admin
 
-from .models import LeasePeriod, Land
+from .models import LeasePeriod, Land,LandCategory
 
 # Register your models here.
 
 
+@admin.register(LandCategory)
+class LandCategoryAdmin(admin.ModelAdmin):
+    '''Admin View for LandCategory'''
+
+    list_display = ('type',"is_featured")
+    # list_filter = ('',)
+    # inlines = [
+    #     Inline,
+    # ]
+    # raw_id_fields = ('',)
+    readonly_fields = ('user',)
+    # search_fields = ('',)
+    # date_hierarchy = ''
+    # ordering = ('',)
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        obj.user = request.user
+        return super().save_model(request, obj, form, change)
+    
 @admin.register(LeasePeriod)
 class LeasePeriodAdmin(admin.ModelAdmin):
     """Admin View for LeasePeriod"""
@@ -19,6 +38,10 @@ class LeasePeriodAdmin(admin.ModelAdmin):
     # search_fields = ('',)
     # date_hierarchy = ''
     # ordering = ('',)
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        obj.user = request.user
+        return super().save_model(request, obj, form, change)
+    
 
 
 @admin.register(Land)
@@ -36,3 +59,7 @@ class LandAdmin(admin.ModelAdmin):
     # date_hierarchy = ''
     # ordering = ('',)
     # ordering = ('',)
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        obj.user = request.user
+        return super().save_model(request, obj, form, change)
+    
