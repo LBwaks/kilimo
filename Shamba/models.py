@@ -194,3 +194,31 @@ class LandImages(models.Model):
         return ""
 
     # TODO: Define custom methods here
+
+class BookmarkedLand(models.Model):
+    """Model definition for BookmarkedLand."""
+
+    # TODO: Define fields here
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    land = models.ForeignKey(Land, related_name="bookmarked_lands" ,on_delete=models.CASCADE)
+    bookmark_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        """Meta definition for BookmarkedLand."""
+
+        verbose_name = 'BookmarkedLand'
+        verbose_name_plural = 'BookmarkedLands'
+
+    def __str__(self):
+        """Unicode representation of BookmarkedLand."""
+        return f"{self.user.username} saved {self.land.land_id}"
+
+    # def save(self):
+    #     """Save method for BookmarkedLand."""
+    #     pass
+
+    # def get_absolute_url(self):
+    #     """Return absolute url for BookmarkedLand."""
+    #     return ('')
+
+    # TODO: Define custom methods here

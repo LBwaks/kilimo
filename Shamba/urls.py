@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import LandDetailView, LandListView,LandWizard,LandUpdateView,LandDeleteView
+from .views import LandDetailView, LandListView,LandWizard,LandUpdateView,LandDeleteView,bookmark,MyBookmarks
 
 urlpatterns = [
     path("", LandListView.as_view(), name="land"),
@@ -8,4 +8,6 @@ urlpatterns = [
     path("land-update/<slug>", LandUpdateView.as_view(), name="land-update"),
     path("land-delete/<slug>", LandDeleteView.as_view(), name="land-delete"),
     path("add-land/", LandWizard.as_view(), name="add-land"),
+    path('bookmark/<slug>', bookmark, name='bookmark'),
+    path("my-bookmarks/<username>", MyBookmarks.as_view(), name="my-bookmarks")
 ]
