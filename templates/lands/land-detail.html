@@ -16,6 +16,7 @@
     <p class="card-text">Shamba Id{{land.shamba_id}} </p>
     <p class="card-text"> Locaation: {{land.location}}</p>
     <p class="card-text">Size :{{land.size}} </p>
+    <p class="card-text"> <a href="{% url 'land-category' land.type.slug %}">{{land.type}}</a> </p>
     <p class="card-text">Climate :{{land.climate}} </p>
     <p class="card-text">Previous Farming:{{land.previous_farming}} </p>
     <p class="card-text">Water source:{{land.water_source}} </p>

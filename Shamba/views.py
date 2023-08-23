@@ -11,9 +11,10 @@ from django.forms.models import BaseModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.text import slugify
 from django.views.generic import DeleteView, DetailView, ListView, UpdateView
 from formtools.wizard.views import SessionWizardView
-from django.utils.text import slugify
+
 from .forms import LandImagesForm  # LandCoordinatesForm,
 from .forms import (
     LandForm,
@@ -22,7 +23,7 @@ from .forms import (
     LandResourcesForm,
     LandUpdateForm,
 )
-from .models import BookmarkedLand, Land, LandImages
+from .models import BookmarkedLand, Land, LandImages,LandCategory
 
 # Create your views here.
 
@@ -191,27 +192,50 @@ class MyBookmarks(ListView):
         )
         return bookmarks
 
+
 class MyLands(ListView):
     model = Land
     template_name = "lands/my-lands.html"
-    context_object_name ="lands"
+    context_object_name = "lands"
 
     def get_queryset(self):
-        queryset= super().get_queryset()
-        lands=queryset.filter(owner=self.request.user).order_by("-created").select_related("owner", "type", "period_lease")
-        
+        queryset = super().get_queryset()
+        lands = (
+            queryset.filter(owner=self.request.user)
+            .order_by("-created")
+            .select_related("owner", "type", "period_lease")
+        )
+
         return lands
+
+
 class UsersLand(ListView):
     model = Land
     template_name = "lands/user-lands.html"
-    context_object_name ="lands"
-    
+    context_object_name = "lands"
+
     def get_queryset(self):
-        self.username=self.kwargs.get("username") #get username
-        slugified_username = slugify(self.username) # convert username to slug
-        user =User.objects.filter(username=slugified_username).first()
+        self.username = self.kwargs.get("username")  # get username
+        slugified_username = slugify(self.username)  # convert username to slug
+        user = User.objects.filter(username=slugified_username).first()
         queryset = super().get_queryset()
         if not user:
             return Land.objects.none()
-        lands = queryset.filter(owner=user).order_by("-created").select_related("owner", "type", "period_lease")
+        lands = (
+            queryset.filter(owner=user)
+            .order_by("-created")
+            .select_related("owner", "type", "period_lease")
+        )
+        return lands
+
+
+class LandByCategory(ListView):
+    model = Land
+    template_name = "lands/land-category.html"
+    context_object_name = "lands"
+
+    def get_queryset(self):
+        self.category = get_object_or_404(LandCategory, slug=self.kwargs.get("slug"))
+        queryset = super().get_queryset()
+        lands = queryset.filter(type=self.category)
         return lands
