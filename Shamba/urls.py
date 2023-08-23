@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import LandDetailView, LandListView,LandWizard,LandUpdateView,LandDeleteView,bookmark,MyBookmarks
+from .views import LandDetailView, LandListView,LandWizard,LandUpdateView,LandDeleteView,bookmark,MyBookmarks,MyLands,UsersLand
 
 urlpatterns = [
     path("", LandListView.as_view(), name="land"),
@@ -9,5 +9,7 @@ urlpatterns = [
     path("land-delete/<slug>", LandDeleteView.as_view(), name="land-delete"),
     path("add-land/", LandWizard.as_view(), name="add-land"),
     path('bookmark/<slug>', bookmark, name='bookmark'),
-    path("my-bookmarks/<username>", MyBookmarks.as_view(), name="my-bookmarks")
+    path("my-bookmarks/<username>", MyBookmarks.as_view(), name="my-bookmarks"),
+    path("my-lands/", MyLands.as_view(), name="my-lands"),
+    path("users-lands/<username>", UsersLand.as_view(), name="users-lands")
 ]

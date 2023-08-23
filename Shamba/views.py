@@ -13,10 +13,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import DeleteView, DetailView, ListView, UpdateView
 from formtools.wizard.views import SessionWizardView
-
+from django.utils.text import slugify
+from .forms import LandImagesForm  # LandCoordinatesForm,
 from .forms import (
     LandForm,
-    LandImagesForm,  # LandCoordinatesForm,
     LandInfrastructureForm,
     LandLocationForm,
     LandResourcesForm,
@@ -178,14 +178,40 @@ def bookmark(request, slug):
         message = "Land Bookmarked"
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
+
 class MyBookmarks(ListView):
     model = BookmarkedLand
     template_name = "lands/bookmarks.html"
     context_object_name = "bookmarks"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        bookmarks = queryset.select_related("land", "user").filter(
+            user=self.request.user
+        )
+        return bookmarks
+
+class MyLands(ListView):
+    model = Land
+    template_name = "lands/my-lands.html"
+    context_object_name ="lands"
+
     def get_queryset(self):
         queryset= super().get_queryset()
-        bookmarks = queryset.select_related('land',"user").filter(user = self.request.user)
-        return bookmarks
+        lands=queryset.filter(owner=self.request.user).order_by("-created").select_related("owner", "type", "period_lease")
+        
+        return lands
+class UsersLand(ListView):
+    model = Land
+    template_name = "lands/user-lands.html"
+    context_object_name ="lands"
     
-    
-    
+    def get_queryset(self):
+        self.username=self.kwargs.get("username") #get username
+        slugified_username = slugify(self.username) # convert username to slug
+        user =User.objects.filter(username=slugified_username).first()
+        queryset = super().get_queryset()
+        if not user:
+            return Land.objects.none()
+        lands = queryset.filter(owner=user).order_by("-created").select_related("owner", "type", "period_lease")
+        return lands
