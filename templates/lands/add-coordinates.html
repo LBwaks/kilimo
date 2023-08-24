@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Add Lands Coordinates{% endblock title %}
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+{% comment %} {% load i18n %} {% endcomment %}
+{% load leaflet_tags %}
+
+{% block head %}
+{% leaflet_js plugins="forms" %}
+{% leaflet_css plugins="forms" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+ <form action="" method="POST">
+    {% comment %} {% csrf_token %} {% endcomment %}
+     {{ form }}
+     <button type="submit">submit</button>
+ </form>
+  <script>
+   map.on('map:loadfield', function (e) {
+    ...
+    // Customize map for field
+    console.log(e.field, e.fieldid);
+    ...
+});
+</script>
+
+{% comment %} {% leaflet_map "yourmap" callback="window.map_init_basic" %} {% endcomment %}
+        </div>
+    </div>
+</div>
+{% comment %} <script>
+    var map = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+</script> {% endcomment %}
+<script>
+function map_init(map, options) {
+    console.log('Map initialization function called');
+    // Customize your map initialization here
+}
+</script>
+
+{% endblock %}

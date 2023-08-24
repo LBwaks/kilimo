@@ -12,7 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.text import slugify
-from django.views.generic import DeleteView, DetailView, ListView, UpdateView
+from django.views.generic import DeleteView, DetailView, ListView, UpdateView,CreateView
 from formtools.wizard.views import SessionWizardView
 
 from .forms import LandImagesForm  # LandCoordinatesForm,
@@ -22,8 +22,9 @@ from .forms import (
     LandLocationForm,
     LandResourcesForm,
     LandUpdateForm,
+    LandCoordinatesForm,
 )
-from .models import BookmarkedLand, Land, LandImages,LandCategory
+from .models import BookmarkedLand, Land, LandImages,LandCategory,LandCoordiates
 
 # Create your views here.
 
@@ -104,6 +105,7 @@ class LandWizard(SessionWizardView):
             existing_machinery=land_infrastructure_data["existing_machinery"],
             human_labour=land_infrastructure_data["human_labour"],
             # form_list 4
+            zipcode=land_location_data["zipcode"],
             county=land_location_data["county"],
             sub_county=land_location_data["sub_county"],
             location=land_location_data["location"],
@@ -123,6 +125,11 @@ class LandWizard(SessionWizardView):
         detail_url = reverse("land-details", kwargs={"slug": land.slug})
         return redirect(detail_url)
 
+
+class LandCoordinateCreateView(CreateView):
+    model = LandCoordiates
+    template_name = "lands/add-coordinates.html"
+    form_class = LandCoordinatesForm
 
 class LandUpdateView(UpdateView):
     model = Land

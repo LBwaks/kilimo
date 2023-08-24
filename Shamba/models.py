@@ -92,6 +92,7 @@ class Land(models.Model):
     type = models.ForeignKey(LandCategory, verbose_name=_("Category"), related_name="land_category",on_delete=models.CASCADE)
     slug = models.UUIDField(default=uuid.uuid4, editable=False)
     shamba_id = models.CharField(_("Proof Of Ownership"), max_length=50)
+    zipcode = models.CharField(_("Zipcode"), max_length=50)
     county = models.CharField(_("County"), choices=COUNTY, max_length=50)
     sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50)
     location = models.CharField(_("Location"), choices=LOCATION, max_length=50)
@@ -99,8 +100,7 @@ class Land(models.Model):
         _("Sublocation"), choices=SUBLOCATION, max_length=50
     )
     village = models.CharField(_("Village/Estate"), max_length=50)
-
-    location_coordinates = models.PointField(null=True,blank=True)
+     
     size = models.FloatField(_("Land Size"))
     soil_type = RichTextField(_("Soil type"))
     climate = RichTextField(_("Describe Region Climate"))
@@ -220,5 +220,35 @@ class BookmarkedLand(models.Model):
     # def get_absolute_url(self):
     #     """Return absolute url for BookmarkedLand."""
     #     return ('')
+
+    # TODO: Define custom methods here
+
+
+class LandCoordiates(models.Model):
+    """Model definition for LandCoordiates."""
+
+    # TODO: Define fields here
+    land = models.ForeignKey(Land, verbose_name=_(""), on_delete=models.CASCADE)
+    coordinates = models.PointField(_("Coordinates"))
+    updated =models.DateTimeField( auto_now=True,)
+    created = models.DateTimeField( auto_now=False, auto_now_add=True)
+
+    class Meta:
+        """Meta definition for LandCoordiates."""
+
+        verbose_name = 'LandCoordiates'
+        verbose_name_plural = 'LandCoordiatess'
+
+    def __str__(self):
+        """Unicode representation of LandCoordiates."""
+        pass
+
+    def save(self):
+        """Save method for LandCoordiates."""
+        pass
+
+    def get_absolute_url(self):
+        """Return absolute url for LandCoordiates."""
+        return ('')
 
     # TODO: Define custom methods here
