@@ -48,8 +48,10 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     'formtools',
     'leaflet',
+    "taggit",
     # created
     "Shamba",
+    "Tools",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

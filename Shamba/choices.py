@@ -84,3 +84,11 @@ SUBLOCATION= [
         ('Sub_loc 5', 'Sub_loc 5'),
        
     ]
+# FOR APP TOOLS 
+PERIOD =[
+    ('1 Hour','1 Hour'),
+    ('1 Day','1 Day'),
+    ('1 Week','1 Week'),
+    ('1 Month','1 Month'),
+    ('1 Season','1 Season'),
+]
