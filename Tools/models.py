@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.utils.translation import gettext as _ 
 from django_extensions.db.fields import AutoSlugField
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 from Shamba.choices import COUNTY,SUBCOUNTY,SUBLOCATION,LOCATION,PERIOD
 from ckeditor.fields import RichTextField
+
 # Create your models here.
 
 class Category(models.Model):
@@ -88,7 +90,7 @@ class Tool(models.Model):
     title =models.CharField(_("Name"), max_length=50)
     slug =AutoSlugField(populate_from="title")
     category = models.ForeignKey(Category, verbose_name=_("Category"), on_delete=models.CASCADE)
-    tags = models.ForeignKey(Tag, verbose_name=_("Tags"), on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, verbose_name=_("Tags"))
     price = models.CharField(_("Price"), max_length=50)
     period = models.CharField(_("Period Per Price"), choices=PERIOD,max_length=50)
     county = models.CharField(_("County"), choices=COUNTY, max_length=50)
@@ -118,7 +120,7 @@ class Tool(models.Model):
 
     def get_absolute_url(self):
         """Return absolute url for Tool."""
-        return ('')
+        return reverse('tool-details' ,kwargs={"slug":self.slug})
 
     # TODO: Define custom methods here
 
@@ -147,5 +149,32 @@ class ToolImage(models.Model):
     def get_absolute_url(self):
         """Return absolute url for ToolImage."""
         return ('')
+
+    # TODO: Define custom methods here
+class BookmarkedTool(models.Model):
+    """Model definition for BookmarkedTool."""
+
+    # TODO: Define fields here
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tool = models.ForeignKey(Tool, related_name="bookmarked_tools" ,on_delete=models.CASCADE)
+    bookmark_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        """Meta definition for BookmarkedTools."""
+
+        verbose_name = 'BookmarkedTools'
+        verbose_name_plural = 'BookmarkedToolss'
+
+    def __str__(self):
+        """Unicode representation of BookmarkedTools."""
+        return f"{self.user.username} saved {self.tool.title}"
+
+    # def save(self):
+    #     """Save method for BookmarkedTool."""
+    #     pass
+
+    # def get_absolute_url(self):
+    #     """Return absolute url for BookmarkedTool."""
+    #     return ('')
 
     # TODO: Define custom methods here

@@ -43,7 +43,7 @@ class TagAdmin(admin.ModelAdmin):
 class ToolAdmin(admin.ModelAdmin):
     '''Admin View for Tool'''
 
-    list_display = ('title','category','tags','updated','created')
+    list_display = ('title','category','updated','created')
     # list_filter = ('',)
     # inlines = [
     #     Inline,

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Tool Details
+{% endblock title %}
+    
+{% block content %}
+    <h1> iam details </h1>
+    <div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <p class="card-text">Owner: <a href="{% url 'users-tools' tool.user.username %}">{{tool.user}}</a>  </p>
+    <p class="card-text">title: {{tool.title}} </p>
+    <p class="card-text">category{{tool.category}} </p>
+    <p class="card-text"> Locaation: {{tool.location}}</p>
+    <p class="card-text">Tags :
+    {% for tag in tool.tags.all %}
+      {% comment %} <a href="{% url 'tool-tags' tags.slug %}">{{tool.tags}}</a>   {% endcomment %}
+    {% endfor %}
+   </p>
+   {{tool.tags}}
+    <p class="card-text"> <a href="{% url 'tool-category' tool.category.slug %}">{{tool.category}}</a> </p>
+    <p class="card-text">price :{{tool.price}} </p>
+    <p class="card-text">period:{{tool.period}} </p>
+    <p class="card-text">county:{{tool.county}} </p>
+    <p class="card-text">sub county :{{tool.sub_county}} </p>
+    <p class="card-text"> sub location{{tool.sub_location}}</p>
+    <p class="card-text">village: {{tool.village}}</p>
+    <p class="card-text">descrition: {{tool.description}}</p>
+
+    <p class="card-text"> Ceated: {{tool.created}}</p>
+
+  </div>
+  <img src="..." class="card-img-bottom" alt="...">
+</div>
+<a href="{% url 'tool-update' tool.slug %}" class="btn btn-primary">Update tool </a>
+<a href="{% url 'tool-delete' tool.slug %}" class="btn btn-danger">Delete tool</a>
+<a href="{% url 'tool-bookmark' tool.slug %}" class="btn btn-secondary">Bookmark land</a>
+{% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
+{% endblock content %}
+    

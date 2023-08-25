@@ -18,13 +18,21 @@
          <li class="nav-item">
           <a class="nav-link" href="{% url 'my-bookmarks' user.username %}">My-Bookmarks</a>
         </li>
+        {% comment %} for lands  {% endcomment %}
          <li class="nav-item">
           <a class="nav-link" href="{% url 'my-lands' %}">My-lands</a>
         </li> <li class="nav-item">
-          <a class="nav-link" href="{% url 'my-bookmarks' user.username %}">My-Bookmarks</a>
+          <a class="nav-link" href="{% url 'my-bookmarks' user.username %}">Land My-Bookmarks</a>
+        </li>
+        {% comment %} for tools  {% endcomment %}
+        </li> <li class="nav-item">
+          <a class="nav-link" href="{% url 'my-tool-bookmarks' user.username %}">Tools My-Bookmarks</a>
+        </li>
+        </li> <li class="nav-item">
+          <a class="nav-link" href="{% url 'my-tools' %}">My Tools</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
+          <a class="nav-link " href="{% url 'add-tools' %}">Add tool</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
