@@ -13,13 +13,15 @@ class Category(models.Model):
 
     # TODO: Define fields here
     title = models.CharField(max_length=50, unique=True)
+    
     slug = AutoSlugField(populate_from="title")
     description = models.TextField(max_length=250)
+    user = models.ForeignKey(User, verbose_name=_(""),related_name="tool_category_user", on_delete=models.CASCADE)
     is_published = models.BooleanField(default=True)
     # objects = models.Manager()
     # publishedCategory =CategoryManager()
     is_featured = models.BooleanField(default=False)
-    created_date = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         """Meta definition for Category."""
@@ -44,9 +46,39 @@ class Category(models.Model):
         return content.replace('_', '-').lower()
 
 # Taggable model for tools
-class TaggedTools(TaggedItemBase):
-    content_object = models.ForeignKey('Tool', verbose_name=_("Tags"), on_delete=models.CASCADE)
+# class TaggedTools(TaggedItemBase):
+#     content_object = models.ForeignKey('Tool', on_delete=models.CASCADE)
 
+class Tag(models.Model):
+    """Model definition for Tag."""
+
+    # TODO: Define fields here
+    name = models.CharField(max_length=50, unique=True)    
+    slug = AutoSlugField(populate_from="name")
+    user = models.ForeignKey(User, verbose_name=_(""),related_name="tool_tag_user", on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name=_("Category"), on_delete=models.CASCADE)
+    is_published = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        """Meta definition for Tag."""
+
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
+
+    def __str__(self):
+        """Unicode representation of Tag."""
+        return self.name
+
+    # def save(self):
+    #     """Save method for Tag."""
+    #     pass
+
+    def get_absolute_url(self):
+        """Return absolute url for Tag."""
+        return ('')
+
+    # TODO: Define custom methods here
 
 class Tool(models.Model):
     """Model definition for Tool."""
@@ -56,7 +88,7 @@ class Tool(models.Model):
     title =models.CharField(_("Name"), max_length=50)
     slug =AutoSlugField(populate_from="title")
     category = models.ForeignKey(Category, verbose_name=_("Category"), on_delete=models.CASCADE)
-    tags = TaggableManager(through=TaggedTools)
+    tags = models.ForeignKey(Tag, verbose_name=_("Tags"), on_delete=models.CASCADE)
     price = models.CharField(_("Price"), max_length=50)
     period = models.CharField(_("Period Per Price"), choices=PERIOD,max_length=50)
     county = models.CharField(_("County"), choices=COUNTY, max_length=50)
@@ -78,7 +110,7 @@ class Tool(models.Model):
 
     def __str__(self):
         """Unicode representation of Tool."""
-        return str.title
+        return self.title
 
     # def save(self):
     #     """Save method for Tool."""
