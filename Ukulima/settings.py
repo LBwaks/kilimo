@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # created
     "Shamba",
     "Tools",
+    "Services",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

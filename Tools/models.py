@@ -81,6 +81,8 @@ class Tag(models.Model):
         return ('')
 
     # TODO: Define custom methods here
+    def slugify_function(self, content):
+        return content.replace('_', '-').lower()
 
 class Tool(models.Model):
     """Model definition for Tool."""
@@ -123,6 +125,8 @@ class Tool(models.Model):
         return reverse('tool-details' ,kwargs={"slug":self.slug})
 
     # TODO: Define custom methods here
+    def slugify_function(self, content):
+        return content.replace('_', '-').lower()
 
 class ToolImage(models.Model):
     """Model definition for ToolImage."""
