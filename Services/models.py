@@ -28,8 +28,8 @@ class ServiceCategory(models.Model):
     class Meta:
         """Meta definition for ServiceCategory."""
 
-        verbose_name = 'ServiceCategory'
-        verbose_name_plural = 'ServiceCategorys'
+        verbose_name = 'Service Category'
+        verbose_name_plural = 'Service Categorys'
 
     def __str__(self):
         """Unicode representation of ServiceCategory."""
@@ -57,6 +57,7 @@ class ServiceTag(models.Model):
     user = models.ForeignKey(User, verbose_name=_(""),related_name="service_tag_user", on_delete=models.CASCADE)
     category = models.ForeignKey(ServiceCategory, related_name="service_category", verbose_name=_("Category"), on_delete=models.CASCADE)
     is_published = models.BooleanField(default=True)
+    # is_featured = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -111,7 +112,7 @@ class Service(models.Model):
 
     def __str__(self):
         """Unicode representation of Service."""
-        self.title
+        return self.title
 
     # def save(self):
     #     """Save method for Service."""
@@ -135,8 +136,8 @@ class ServiceImage(models.Model):
     class Meta:
         """Meta definition for ServiceImage."""
 
-        verbose_name = 'ServiceImage'
-        verbose_name_plural = 'ServiceImages'
+        verbose_name = 'Service Image'
+        verbose_name_plural = 'Service Images'
 
     def __str__(self):
         """Unicode representation of ServiceImage."""
