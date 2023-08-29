@@ -41,6 +41,7 @@ class ToolCreateView(CreateView):
         images = self.request.FILES.getlist("images")
         for image in images:
             ToolImage.objects.create(tool=tool,image=image)
+        tool.save()
         return super().form_valid(form)
     
 class ToolUpdateView(UpdateView):
@@ -76,7 +77,7 @@ class ToolDeleteView(DeleteView):
         obj = self.get_object()
         if obj.user != self.request.user:
             messages.error(request, "You dont have permission to Delete  this job")
-            return redirect(reverse("job-details", args=[obj.slug]))
+            return redirect(reverse("land-details", args=[obj.slug]))
             # raise  PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 

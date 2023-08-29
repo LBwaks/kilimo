@@ -1,48 +1,49 @@
 from ckeditor.widgets import CKEditorWidget
 from django import forms
 
-from .models import Category, Tag, Tool, ToolImage
+from .models import Service, ServiceTag
 
 
-class ToolForm(forms.ModelForm):
-    """Form definition for Tool."""
+class ServiceForm(forms.ModelForm):
+    """Form definition for Service."""
 
+    images = forms.FileField(
+        label="Image",
+        widget=forms.ClearableFileInput(
+            attrs={"required": True, "class": "form-control image"}
+        ),
+    )
     tags = forms.ModelMultipleChoiceField(
         label="Tags",
         widget=forms.SelectMultiple(
             attrs={
                 "required": True,
                 "class": "form-control tags form-select",
-                "id": "tools_tag",
+                "id": "service_tags",
             }
         ),
-        queryset=Tag.objects.all()
+        queryset=ServiceTag.objects.all(),
     )
     description = forms.CharField(
         label="Description",
         widget=CKEditorWidget(
-            attrs={"required": True, "class": "form-control description"}
+            attrs={"required": True, "class": "description form-control"}
         ),
     )
-    # images = forms.ImageField(
-    #     # required=True,
-    #     widget=forms.ClearableFileInput(
-    #         attrs={ "required": True, "class": "form-control image",}
-    #     ),
-    # )
 
     class Meta:
-        """Meta definition for Toolform."""
+        """Meta definition for Serviceform."""
 
-        model = Tool
-        labels = {
+        model = Service
+        labels ={
             "title":'Title',
-            "category":'Category',           
+            "category":'Category',            
             "price":'Price',
             "period":'Period',
-            "county":'County',
+            "county":'County',            
             "sub_county":'Sub County',
             "location":'Location',
+            "sub_location":"Sub Location",
             "village":'Village',
             
         }
@@ -67,50 +68,51 @@ class ToolForm(forms.ModelForm):
             "county": forms.Select(attrs={'class': 'control-select county', 'required': True}),
             "sub_county": forms.Select(attrs={'class': 'control-select sub_county', 'required': True}),
             "location": forms.Select(attrs={'class': 'control-select location', 'required': True}),
-            "location": forms.TextInput(attrs={'class': 'control-form location', 'required': True}),
+            "sub_location": forms.TextInput(attrs={'class': 'control-form sub_location', 'required': True}),
             "village": forms.TextInput(attrs={'class': 'control-form village', 'required': True}),
         }
 
 
-class ToolUpdateForm(forms.ModelForm):
-    """Form definition for Tool."""
+class ServiceUpdateForm(forms.ModelForm):
+    """Form definition for Service."""
 
+    images = forms.FileField(
+        label="Image",
+        widget=forms.ClearableFileInput(
+            attrs={"required": True, "class": "form-control image"}
+        ),
+    )
     tags = forms.ModelMultipleChoiceField(
         label="Tags",
         widget=forms.SelectMultiple(
             attrs={
                 "required": True,
                 "class": "form-control tags form-select",
-                "id": "tools_tag",
+                "id": "service_tags",
             }
         ),
-        queryset=Tag.objects.all()
+        queryset=ServiceTag.objects.all(),
     )
     description = forms.CharField(
         label="Description",
         widget=CKEditorWidget(
-            attrs={"required": True, "class": "form-control description"}
+            attrs={"required": True, "class": "description form-control"}
         ),
     )
-    # images = forms.ImageField(
-    #     # required=True,
-    #     widget=forms.ClearableFileInput(
-    #         attrs={ "required": True, "class": "form-control image",}
-    #     ),
-    # )
 
     class Meta:
-        """Meta definition for Toolform."""
+        """Meta definition for Serviceform."""
 
-        model = Tool
-        labels = {
+        model = Service
+        labels ={
             "title":'Title',
-            "category":'Category',           
+            "category":'Category',            
             "price":'Price',
             "period":'Period',
-            "county":'County',
+            "county":'County',            
             "sub_county":'Sub County',
             "location":'Location',
+            "sub_location":"Sub Location",
             "village":'Village',
             
         }
@@ -123,6 +125,7 @@ class ToolUpdateForm(forms.ModelForm):
             "county",
             "sub_county",
             "location",
+            "sub_location",
             "village",
             "description",
         )
@@ -134,6 +137,6 @@ class ToolUpdateForm(forms.ModelForm):
             "county": forms.Select(attrs={'class': 'control-select county', 'required': True}),
             "sub_county": forms.Select(attrs={'class': 'control-select sub_county', 'required': True}),
             "location": forms.Select(attrs={'class': 'control-select location', 'required': True}),
-            "location": forms.TextInput(attrs={'class': 'control-form location', 'required': True}),
+            "sub_location": forms.TextInput(attrs={'class': 'control-form sub_location', 'required': True}),
             "village": forms.TextInput(attrs={'class': 'control-form village', 'required': True}),
         }
