@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Lands
+    services
 {% endblock title %}
     
 {% block content %}
-<H1>i am lands </H1>
+<H1>i am services </H1>
 
 <div class="container"> 
     <div class="row">
         <div class="col-md-8">
             
-        {% for land in object_list %}
+        {% for service in object_list %}
             <div class="card mb-3" style="max-width: 540px;">
   <div class="row g-0">
     <div class="col-md-4">
@@ -19,7 +19,7 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title"><a href="{{land.get_absolute_url}}">{{land.land_id}}</a> </h5>
+        <h5 class="card-title"><a href="{{service.get_absolute_url}}">{{service.title}}</a> </h5>
         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>

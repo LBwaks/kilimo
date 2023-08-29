@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    service Details
+{% endblock title %}
+    
+{% block content %}
+    <h1> iam details </h1>
+    <div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <p class="card-text">Owner: <a href="{% url 'users-services' service.user.username %}">{{service.user}}</a>  </p>
+    <p class="card-text">title: {{service.title}} </p>
+    <p class="card-text">category{{service.category}} </p>
+    <p class="card-text"> Locaation: {{service.location}}</p>
+    <p class="card-text">Tags :
+    {% for tag in service.tags.all %}
+      {% comment %} <a href="{% url 'service-tags' tags.slug %}">{{service.tags}}</a>   {% endcomment %}
+    {% endfor %}
+   </p>
+   {{service.tags}}
+    <p class="card-text"> <a href="{% url 'service-category' service.category.slug %}">{{service.category}}</a> </p>
+    <p class="card-text">price :{{service.price}} </p>
+    <p class="card-text">period:{{service.period}} </p>
+    <p class="card-text">county:{{service.county}} </p>
+    <p class="card-text">sub county :{{service.sub_county}} </p>
+    <p class="card-text"> sub location{{service.sub_location}}</p>
+    <p class="card-text">village: {{service.village}}</p>
+    <p class="card-text">descrition: {{service.description}}</p>
+
+    <p class="card-text"> Ceated: {{service.created}}</p>
+
+  </div>
+  <img src="..." class="card-img-bottom" alt="...">
+</div>
+<a href="{% url 'service-update' service.slug %}" class="btn btn-primary">Update service </a>
+<a href="{% url 'service-delete' service.slug %}" class="btn btn-danger">Delete service</a>
+<a href="{% url 'service-bookmark' service.slug %}" class="btn btn-secondary">Bookmark land</a>
+{% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
+{% endblock content %}
+    

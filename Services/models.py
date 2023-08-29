@@ -120,7 +120,7 @@ class Service(models.Model):
 
     def get_absolute_url(self):
         """Return absolute url for Service."""
-        return ('')
+        return reverse('service-details',kwargs={"slug":self.slug})
 
     # TODO: Define custom methods here
     
