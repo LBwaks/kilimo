@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'formtools',
     'leaflet',
     "taggit",
+    'django_filters',
     # created
     "Shamba",
     "Tools",

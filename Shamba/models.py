@@ -9,7 +9,7 @@ from django.contrib.gis.db import models
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django_extensions.db.fields import AutoSlugField
-from .choices import COUNTY, LOCATION, SUBCOUNTY, SUBLOCATION
+from .choices import COUNTY, LOCATION, SUBCOUNTY, SUBLOCATION,UNITS
 
 # Create your models here.
 class LandCategory(models.Model):
@@ -51,6 +51,29 @@ class LandCategory(models.Model):
     # TODO: Define custom methods here
     def slugify_function(self, content):
         return content.replace('_', '-').lower()
+class LandTag(models.Model):
+    """Model definition for LandTag."""
+
+    # TODO: Define fields here
+    name = models.CharField(max_length=50, unique=True)    
+    slug =AutoSlugField(populate_from="name")
+    user = models.ForeignKey(User, verbose_name=_(""),related_name="land_tag_user", on_delete=models.CASCADE)
+    category = models.ForeignKey(LandCategory, related_name="land_tag_category", verbose_name=_("Category"), on_delete=models.CASCADE)
+    is_published = models.BooleanField(default=True)
+    # is_featured = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        """Meta definition for LandTag."""
+
+        verbose_name = 'LandTag'
+        verbose_name_plural = 'LandTags'
+
+    def __str__(self):
+        """Unicode representation of LandTag."""
+        return self.name
+        
 
 class LeasePeriod(models.Model):
     """Model definition for LeasePeriod."""
@@ -88,8 +111,10 @@ class Land(models.Model):
     """Model definition for Lands."""
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(_("Title"), max_length=50)
     land_id = models.CharField(_("Land Id"), unique=True, max_length=12)
     type = models.ForeignKey(LandCategory, verbose_name=_("Category"), related_name="land_category",on_delete=models.CASCADE)
+    tags = models.ManyToManyField(LandTag, verbose_name=_("Tags"))
     slug = models.UUIDField(default=uuid.uuid4, editable=False)
     shamba_id = models.CharField(_("Proof Of Ownership"), max_length=50)
     zipcode = models.CharField(_("Zipcode"), max_length=50)
@@ -102,6 +127,7 @@ class Land(models.Model):
     village = models.CharField(_("Village/Estate"), max_length=50)
      
     size = models.FloatField(_("Land Size"))
+    size_units = models.CharField(_("Size Unit"),choices=UNITS, max_length=50)
     soil_type = RichTextField(_("Soil type"))
     climate = RichTextField(_("Describe Region Climate"))
     previous_farming = RichTextField(_("Previous Farming Activity"))

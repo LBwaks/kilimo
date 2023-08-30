@@ -92,3 +92,8 @@ PERIOD =[
     ('1 Month','1 Month'),
     ('1 Season','1 Season'),
 ]
+
+UNITS=[
+    ('Acre','Acre'),
+    ('Hectares','Hectares')
+]

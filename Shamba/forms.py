@@ -16,11 +16,13 @@ class LandForm(forms.ModelForm):
 
         model = Land
         fields = (
+            "title",
             "shamba_id",
             "size",
             "charge",
             "period_lease",
             "type",
+            "tags",
             # "climate",
             # "soil_type",
             # "water_source",
@@ -154,11 +156,13 @@ class LandUpdateForm(forms.ModelForm):
 
         model = Land
         fields = (
+            "title",
             "shamba_id",
             "size",
             "charge",
             "period_lease",
             "type",
+            "tags",
             "climate",
             "soil_type",
             "water_source",
