@@ -22,5 +22,6 @@ urlpatterns = [
     path("lands/", include("Shamba.urls")),
     path("tools/",include("Tools.urls")),
     path("services/",include("Services.urls")),
+    path("produce/",include("Produce.urls")),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
