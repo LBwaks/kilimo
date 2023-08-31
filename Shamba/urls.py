@@ -12,7 +12,8 @@ from .views import (
     UsersLand,
     bookmark,
     LandCoordinateCreateView,
-    LandFilterView
+    LandFilterView,
+    LandByTag
 )
 
 urlpatterns = [
@@ -26,6 +27,7 @@ urlpatterns = [
     path("my-lands/", MyLands.as_view(), name="my-lands"),
     path("users-lands/<username>", UsersLand.as_view(), name="users-lands"),
     path("land-by-category/<slug>", LandByCategory.as_view(), name="land-category"),
+    path("land-by-tag/<slug>", LandByTag.as_view(), name="land-tag"),
     path("add-coordinates/<slug>", LandCoordinateCreateView.as_view(), name="add-coordinates"),
     path("land-filters/", LandFilterView.as_view(), name="land-filter")
 ]

@@ -9,6 +9,7 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from .forms import ToolForm,ToolUpdateForm
 from django.contrib import messages 
+from .filters import ToolFilter
 # Create your views here.
 
 class ToolListView(ListView):

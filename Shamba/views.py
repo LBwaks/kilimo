@@ -7,13 +7,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
 from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.text import slugify
-from django.core.paginator import Paginator
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -23,7 +23,7 @@ from django.views.generic import (
 )
 from django_filters.views import FilterView
 from formtools.wizard.views import SessionWizardView
-
+from django.db.models import Count
 from .filters import LandFilter
 from .forms import LandImagesForm  # LandCoordinatesForm,
 from .forms import (
@@ -34,7 +34,14 @@ from .forms import (
     LandResourcesForm,
     LandUpdateForm,
 )
-from .models import BookmarkedLand, Land, LandCategory, LandCoordiates, LandImages, LandTag
+from .models import (
+    BookmarkedLand,
+    Land,
+    LandCategory,
+    LandCoordiates,
+    LandImages,
+    LandTag,
+)
 
 # Create your views here.
 
@@ -46,14 +53,17 @@ class LandListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.select_related(
-            "period_lease", "owner"
-        )  # .prefetch_related()
+            "period_lease", "owner", "type"
+        ).prefetch_related("tags")
         return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = LandFilter(self.request.GET,queryset=self.get_queryset())
+        context["filter"] = LandFilter(self.request.GET, queryset=self.get_queryset())
+        context['popular_tags']=LandTag.objects.annotate(num_lands=Count('land')).order_by('-num_lands')[:5]
+        context["categories"] = LandCategory.objects.select_related("user")
+        context["tags"] = LandTag.objects.select_related("user", "category")
         return context
-    
 
 
 class LandDetailView(DetailView):
@@ -224,12 +234,14 @@ class MyLands(ListView):
     context_object_name = "lands"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        lands = (
-            queryset.filter(owner=self.request.user)
+        queryset = (
+            super()
+            .get_queryset()
             .order_by("-created")
             .select_related("owner", "type", "period_lease")
+            .prefetch_related("tags")
         )
+        lands = queryset.filter(owner=self.request.user)
 
         return lands
 
@@ -243,14 +255,16 @@ class UsersLand(ListView):
         self.username = self.kwargs.get("username")  # get username
         slugified_username = slugify(self.username)  # convert username to slug
         user = User.objects.filter(username=slugified_username).first()
-        queryset = super().get_queryset()
-        if not user:
-            return Land.objects.none()
-        lands = (
-            queryset.filter(owner=user)
+        queryset = (
+            super()
+            .get_queryset()
             .order_by("-created")
             .select_related("owner", "type", "period_lease")
+            .prefetch_related("tags")
         )
+        if not user:
+            return Land.objects.none()
+        lands = queryset.filter(owner=user)
         return lands
 
 
@@ -258,12 +272,37 @@ class LandByCategory(ListView):
     model = Land
     template_name = "lands/land-category.html"
     context_object_name = "lands"
-    paginate_by =10
+    paginate_by = 10
 
     def get_queryset(self):
         self.category = get_object_or_404(LandCategory, slug=self.kwargs.get("slug"))
-        queryset = super().get_queryset()
+        queryset = (
+            super()
+            .get_queryset()
+            .order_by("-created")
+            .select_related("owner", "type", "period_lease")
+            .prefetch_related("tags")
+        )
         lands = queryset.filter(type=self.category)
+        return lands
+
+
+class LandByTag(ListView):
+    model = Land
+    template_name = "lands/land-tags.html"
+    context_object_name = "lands"
+    paginate_by = 10
+
+    def get_queryset(self):
+        self.tag = get_object_or_404(LandTag, slug=self.kwargs.get("slug"))
+        queryset = (
+            super()
+            .get_queryset()
+            .order_by("-created")
+            .select_related("owner", "type", "period_lease")
+            .prefetch_related("tags")
+        )
+        lands = queryset.filter(tags=self.tag)
         return lands
 
 
@@ -271,12 +310,12 @@ class LandFilterView(FilterView):
     model = Land
     template_name = "lands/land-filters.html"
     filterset_class = LandFilter
-    paginate_by =10
+    paginate_by = 10
 
     def get(self, request, *args, **kwargs):
         land_filter = LandFilter(request.GET, queryset=self.get_queryset())
         paginator = Paginator(land_filter.qs, self.paginate_by)
-        page_number = request.GET.get('page')
+        page_number = request.GET.get("page")
         lands = paginator.get_page(page_number)
         tags = LandTag.objects.select_related("user", "category")
         categories = LandCategory.objects.select_related("user")
@@ -292,13 +331,17 @@ class LandFilterView(FilterView):
                 "land_filter": land_filter,
             },
         )
+
     def get_queryset(self) -> QuerySet[Any]:
-        queryset = Land.objects.select_related('owner','type','period_lease').prefetch_related('tags')
-        land_filter = LandFilter(self.request.GET,queryset=queryset)
+        queryset = Land.objects.select_related(
+            "owner", "type", "period_lease"
+        ).prefetch_related("tags")
+        land_filter = LandFilter(self.request.GET, queryset=queryset)
         return land_filter.qs
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["land_filter"] = LandFilter(self.request.GET,queryset=self.get_queryset()) 
+        context["land_filter"] = LandFilter(
+            self.request.GET, queryset=self.get_queryset()
+        )
         return context
-    
