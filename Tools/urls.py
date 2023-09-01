@@ -11,7 +11,8 @@ from .views import (
     UsersTool,
     bookmark,
     ToolDeleteView,
-    ToolUpdateView
+    ToolUpdateView,
+    ToolFilterView
 )
 
 urlpatterns = [
@@ -28,4 +29,5 @@ urlpatterns = [
     path("users-tools/<username>", UsersTool.as_view(), name="users-tools"),
     path("tool-category/<slug>", ToolByCategory.as_view(), name="tool-category"),
     path("tool-tags/<slug>", ToolByTag.as_view(), name="tool-tags"),
+    path("tool-filters/", ToolFilterView.as_view(), name="tool-filter"),
 ]

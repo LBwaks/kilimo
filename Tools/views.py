@@ -1,27 +1,45 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.forms.models import BaseModelForm
+from django.core.paginator import Paginator
+from django_filters.views import FilterView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from .models import Tool,BookmarkedTool,Category,Tag,ToolImage
-from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
-from django.contrib.auth.models import User
-from .forms import ToolForm,ToolUpdateForm
-from django.contrib import messages 
-from .filters import ToolFilter
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
+
+from Tools.filters import ToolFilter
+from .forms import ToolForm, ToolUpdateForm
+from .models import BookmarkedTool, Category, Tag, Tool, ToolImage
+from django.db.models import Count
 # Create your views here.
+
 
 class ToolListView(ListView):
     model = Tool
     template_name = "tools/tools.html"
-    
+
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.prefetch_related("tags").select_related('user','category')
+        queryset = queryset.prefetch_related("tags").select_related("user", "category")
         return queryset
-
-
+    def get_context_data(self, **kwargs):
+        context = super(ToolListView,self).get_context_data(**kwargs)
+        context["filter"] = ToolFilter(self.request.GET,queryset=self.get_queryset())
+        context['popular_tags']=Tag.objects.annotate(num_tools=Count('tool')).order_by('-num_tools')[:5]
+        context["categories"] = Category.objects.select_related("user")
+        context["tags"] = Tag.objects.select_related("user", "category")
+        
+        return context
+    
 
 class ToolDetailView(DetailView):
     model = Tool
@@ -32,19 +50,22 @@ class ToolDetailView(DetailView):
         context["tool"] = self.get_object()
         return context
 
+
 class ToolCreateView(CreateView):
     model = Tool
     template_name = "tools/add-tools.html"
     form_class = ToolForm
+
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         tool = form.save(commit=False)
-        tool.user= self.request.user 
+        tool.user = self.request.user
         images = self.request.FILES.getlist("images")
         for image in images:
-            ToolImage.objects.create(tool=tool,image=image)
+            ToolImage.objects.create(tool=tool, image=image)
         tool.save()
         return super().form_valid(form)
-    
+
+
 class ToolUpdateView(UpdateView):
     model = Tool
     template_name = "tools/tool-update.html"
@@ -87,7 +108,7 @@ class ToolDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-# bookmars 
+# bookmars
 @login_required
 def bookmark(request, slug):
     tool = get_object_or_404(Tool, slug=slug)
@@ -125,7 +146,8 @@ class MyTools(ListView):
         tools = (
             queryset.filter(user=self.request.user)
             .order_by("-created")
-            .select_related("user", "category").prefetch_related('tags')
+            .select_related("user", "category")
+            .prefetch_related("tags")
         )
 
         return tools
@@ -146,7 +168,11 @@ class UsersTool(ListView):
         tools = (
             queryset.filter(user=user)
             .order_by("-created")
-            .select_related("user", "category",).prefetch_related("tags")
+            .select_related(
+                "user",
+                "category",
+            )
+            .prefetch_related("tags")
         )
         return tools
 
@@ -158,10 +184,19 @@ class ToolByCategory(ListView):
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, slug=self.kwargs.get("slug"))
-        queryset = super().get_queryset().select_related("user", "category",).prefetch_related("tags")
+        queryset = (
+            super()
+            .get_queryset()
+            .select_related(
+                "user",
+                "category",
+            )
+            .prefetch_related("tags")
+        )
         tools = queryset.filter(category=self.category)
         return tools
-    
+
+
 class ToolByTag(ListView):
     model = Tool
     template_name = "tools/tool-tags.html"
@@ -169,6 +204,50 @@ class ToolByTag(ListView):
 
     def get_queryset(self):
         self.tags = get_object_or_404(Tag, slug=self.kwargs.get("slug"))
-        queryset = super().get_queryset().select_related("user", "category",).prefetch_related("tags")
+        queryset = (
+            super()
+            .get_queryset()
+            .select_related(
+                "user",
+                "category",
+            )
+            .prefetch_related("tags")
+        )
         tools = queryset.filter(tags=self.tags)
         return tools
+
+
+class ToolFilterView(FilterView):
+    model = Tool
+    template_name = "tools/tool-filters.html"
+    filterset_class = ToolFilter
+    paginate_by = 10
+
+    def get(self, request, *args, **kwargs):
+        tool_filter = ToolFilter(request.GET, queryset=self.get_queryset())
+        paginator = Paginator(tool_filter.qs, self.paginate_by)
+        page_number = request.GET.get("page")
+        tools = paginator.get_page(page_number)
+        tags = Tag.objects.select_related("user", "category")
+        categories = Category.objects.select_related("category")
+        return render(
+            request,
+            self.template_name,
+            {
+                "tools": tools,
+                "tags": tags,
+                "categories": categories,
+                "tool_filter": tool_filter,
+            },
+        )
+    def get_queryset(self):
+        queryset =Tool.objects.select_related('user','category').prefetch_related('tags')
+        tool_filter =ToolFilter(self.request.GET,queryset=queryset)
+        
+        return tool_filter.qs
+    def  get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tool_filter"] = ToolFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+    
+    
