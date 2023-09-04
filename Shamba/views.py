@@ -23,7 +23,7 @@ from django.views.generic import (
 )
 from django_filters.views import FilterView
 from formtools.wizard.views import SessionWizardView
-from django.db.models import Count
+from django.db.models import Count,Q
 from .filters import LandFilter
 from .forms import LandImagesForm  # LandCoordinatesForm,
 from .forms import (
@@ -74,7 +74,10 @@ class LandDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["land"] = self.get_object()
+        land = self.get_object()
+        tags_id = land.tags.values_list('id',flat = True)
+        similar_lands = Land.objects.prefetch_related('tags').select_related('owner','type','period_lease').filter(Q(type=land.type)| Q(tags__in = tags_id)).exclude(id=land.id)[:5]       
+        context ={'land':land,"similar_lands":similar_lands}
         return context
 
 

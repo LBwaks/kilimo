@@ -19,7 +19,7 @@ from django.views.generic import (
 from Tools.filters import ToolFilter
 from .forms import ToolForm, ToolUpdateForm
 from .models import BookmarkedTool, Category, Tag, Tool, ToolImage
-from django.db.models import Count
+from django.db.models import Count,Q
 # Create your views here.
 
 
@@ -47,7 +47,10 @@ class ToolDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tool"] = self.get_object()
+        tool = self.get_object()
+        tags_id = tool.tags.values_list('id',flat=True)
+        similar_tools = Tool.objects.select_related('user','category').prefetch_related('tags').filter(Q(category=tool.category) | Q(tags__in = tags_id)).exclude(id=tool.id)[:5]
+        context={'tool':tool,"similar_tools":similar_tools}
         return context
 
 
@@ -229,7 +232,7 @@ class ToolFilterView(FilterView):
         page_number = request.GET.get("page")
         tools = paginator.get_page(page_number)
         tags = Tag.objects.select_related("user", "category")
-        categories = Category.objects.select_related("category")
+        categories = Category.objects.select_related("user")
         return render(
             request,
             self.template_name,

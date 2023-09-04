@@ -6,7 +6,10 @@
     
 {% block content %}
     <h1> iam details </h1>
-    <div class="card">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+<div class="card">
   <div class="card-body">
     <h5 class="card-title">Card title</h5>
     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
@@ -34,5 +37,17 @@
 <a href="{% url 'land-delete' land.slug %}" class="btn btn-danger">Delete land</a>
 <a href="{% url 'bookmark' land.slug %}" class="btn btn-secondary">Bookmark land</a>
 <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a>
+        </div>
+        <div class="col-md-4">
+<h1>sidebar</h1>
+{% for similar_land in similar_lands %}
+<p>title: {{similar_land.title}} </p>
+<p>category : {{similar_land.type}}</p>
+{% empty %}
+<p>no similar land</p>
+{% endfor %}
+        </div>
+      </div>
+    </div>
 {% endblock content %}
     

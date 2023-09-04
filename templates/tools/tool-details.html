@@ -5,22 +5,25 @@
 {% endblock title %}
     
 {% block content %}
-    <h1> iam details </h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+ <h1> iam details </h1>
     <div class="card">
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <h5 class="card-title">Title :: {{tool.title}}</h5>
+    <p class="card-text"><small class="text-muted">created::{{tool.created}} </small></p>
+   
     <p class="card-text">Owner: <a href="{% url 'users-tools' tool.user.username %}">{{tool.user}}</a>  </p>
-    <p class="card-text">title: {{tool.title}} </p>
-    <p class="card-text">category{{tool.category}} </p>
-    <p class="card-text"> Locaation: {{tool.location}}</p>
+        <p class="card-text">category{{tool.category}} </p>
+    <p class="card-text"> Location: {{tool.location}}</p>
     <p class="card-text">Tags :
     {% for tag in tool.tags.all %}
-      {% comment %} <a href="{% url 'tool-tags' tags.slug %}">{{tool.tags}}</a>   {% endcomment %}
+      <a href="">{{tag.name}}</a>  ,
     {% endfor %}
    </p>
-   {{tool.tags}}
+   {% comment %} {{tool.tags}} {% endcomment %}
     <p class="card-text"> <a href="{% url 'tool-category' tool.category.slug %}">{{tool.category}}</a> </p>
     <p class="card-text">price :{{tool.price}} </p>
     <p class="card-text">period:{{tool.period}} </p>
@@ -39,5 +42,24 @@
 <a href="{% url 'tool-delete' tool.slug %}" class="btn btn-danger">Delete tool</a>
 <a href="{% url 'tool-bookmark' tool.slug %}" class="btn btn-secondary">Bookmark land</a>
 {% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
+    </div>
+    <div class="col-md-4">
+<h1>sidebar</h1>
+
+{% for similar_tool in similar_tools %}
+<p>title : {{similar_tool.title}} </p>
+<p> category {{similar_tool.category}}</p>
+{% empty %}
+no similar
+{% endfor %}
+
+    </div>
+  </div>
+</div>
+
+
+
+
+   
 {% endblock content %}
     

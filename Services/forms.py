@@ -7,12 +7,12 @@ from .models import Service, ServiceTag
 class ServiceForm(forms.ModelForm):
     """Form definition for Service."""
 
-    images = forms.FileField(
-        label="Image",
-        widget=forms.ClearableFileInput(
-            attrs={"required": True, "class": "form-control image"}
-        ),
-    )
+    # images = forms.FileField(
+    #     label="Image",
+    #     widget=forms.ClearableFileInput(
+    #         attrs={"required": True, "class": "form-control image"}
+    #     ),
+    # )
     tags = forms.ModelMultipleChoiceField(
         label="Tags",
         widget=forms.SelectMultiple(

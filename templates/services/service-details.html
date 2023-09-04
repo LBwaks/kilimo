@@ -5,8 +5,11 @@
 {% endblock title %}
     
 {% block content %}
-    <h1> iam details </h1>
-    <div class="card">
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+ <div class="card">
   <div class="card-body">
     <h5 class="card-title">Card title</h5>
     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
@@ -17,10 +20,10 @@
     <p class="card-text"> Locaation: {{service.location}}</p>
     <p class="card-text">Tags :
     {% for tag in service.tags.all %}
-      {% comment %} <a href="{% url 'service-tags' tags.slug %}">{{service.tags}}</a>   {% endcomment %}
+      <a href="{% url 'service-tags' tag.slug %}">{{tag.name}}</a>  
     {% endfor %}
    </p>
-   {{service.tags}}
+   
     <p class="card-text"> <a href="{% url 'service-category' service.category.slug %}">{{service.category}}</a> </p>
     <p class="card-text">price :{{service.price}} </p>
     <p class="card-text">period:{{service.period}} </p>
@@ -39,5 +42,25 @@
 <a href="{% url 'service-delete' service.slug %}" class="btn btn-danger">Delete service</a>
 <a href="{% url 'service-bookmark' service.slug %}" class="btn btn-secondary">Bookmark land</a>
 {% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
+    </div>
+    <div class="col-md-4">
+<h1>sidebar</h1>
+
+{% for similar_service in similar_services %}
+<div class="card">
+  <div class="card-body">
+    <p>title :{{similar_service.title}} </p>
+    <p>category :: {{ similar_service.category}}</p>
+  </div>
+</div>
+{% empty %}
+<p> no similar </p>
+{% endfor %}
+    </div>
+  </div>
+</div>
+
+
+    
 {% endblock content %}
     

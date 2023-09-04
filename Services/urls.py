@@ -11,7 +11,8 @@ from .views import (
     MyServices,
     UsersService,
     ServiceByCategory,
-    ServiceByTag
+    ServiceByTag,
+    ServiceFilterView
 )
 
 urlpatterns = [
@@ -29,5 +30,6 @@ urlpatterns = [
     path("users-tools/<username>", UsersService.as_view(), name="users-services"),
     path("service-category/<slug>", ServiceByCategory.as_view(), name="service-category"),
     path("service-tags/<slug>", ServiceByTag.as_view(), name="service-tags"),
+    path("service-filter/", ServiceFilterView.as_view(), name="service-filter")
 
 ]
