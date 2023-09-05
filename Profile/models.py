@@ -7,6 +7,7 @@ from Shamba.choices import COUNTY,SUBCOUNTY,LOCATION,SUBLOCATION
 from .choices import INTEREST
 from ckeditor.fields import RichTextField
 from django.core.validators import FileExtensionValidator
+from PIL import Image
 # Create your models here.
 
 
@@ -48,9 +49,21 @@ class Profile(models.Model):
         """Unicode representation of Profile."""
         return f"{str(self.firstname)} {str(self.lastname)}"
  
-    # def save(self):
+    def save(self,*args, **kwargs):
     #     """Save method for Profile."""
-    #     pass
+    
+    # save the profile first
+        super().save(*args, **kwargs)
+
+    # resize the image
+        img = Image.open(self.avatar.path)
+        if img.height > 150 or img.width > 150:
+            output_size = (150, 150)
+        # create a thumbnail
+            img.thumbnail(output_size)
+        
+        # overwrite the large image
+            img.save(self.avatar.path)
  
     def get_absolute_url(self):
         """Return absolute url for Profile."""
