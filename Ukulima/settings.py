@@ -50,11 +50,14 @@ INSTALLED_APPS = [
     'leaflet',
     "taggit",
     'django_filters',
+    "phonenumber_field",
     # created
     "Shamba",
     "Tools",
     "Services",
     "Produce",
+    # 'Account',
+    "Profile",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
