@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.utils.translation import gettext as _
 import uuid
 from phonenumber_field.modelfields import PhoneNumberField
@@ -12,6 +13,7 @@ from PIL import Image
 
 
 ext_validators =FileExtensionValidator(['jpg','png','jpeg',''])
+
 class Profile(models.Model):
     """Model definition for Profile."""
  
@@ -67,7 +69,11 @@ class Profile(models.Model):
  
     def get_absolute_url(self):
         """Return absolute url for Profile."""
-        return ('')
+        return reverse('profile', kwargs={"slug":self.slug})
+    @property
+    def profile_url(self):
+        if self.avatar and hasattr(self.avatar,'url'):
+            return self.avatar.url
  
     # TODO: Define custom methods here
  

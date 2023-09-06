@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    profile Details
+{% endblock title %}
+    
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+ <h1> iam details </h1>
+    <div class="card">
+  <div class="card-body">
+   
+        <p class="card-text">Firstname{{profile.firstname}} </p>
+    <p class="card-text"> Lastname: {{profile.lastname}}</p>  
+  
+   
+    <p class="card-text">Email :{{profile.email}} </p>
+    <p class="card-text">Tell:{{profile.tell}} </p>
+    <p class="card-text">county:{{profile.county}} </p>
+    <p class="card-text">sub county :{{profile.sub_county}} </p>
+    <p class="card-text"> sub location{{profile.sub_location}}</p>
+    <p class="card-text">village: {{profile.village}}</p>
+    <p class="card-text">Bio: {{profile.bio}}</p>
+
+    <p class="card-text">INterest: {{profile.interest}}</p>
+    <p class="card-text">Other{{profile.other}}</p>
+    <p class="card-text">Twitter: {{profile.twitter}}</p>
+    <p class="card-text">Facebook: {{profile.facebook}}</p>
+    <p class="card-text">Website:{{profile.website}} </p>
+
+  </div>
+  <img src="{{profile.avatar.url}}" class="card-img-bottom" alt="...">
+</div>
+
+<a href="{% url 'profile-update' profile.slug %}" class="btn btn-secondary">Bookmark land</a>
+{% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
+    </div>
+    <div class="col-md-4">
+<h1>sidebar</h1>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+   
+{% endblock content %}
+    
