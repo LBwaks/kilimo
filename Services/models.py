@@ -7,6 +7,8 @@ from django_extensions.db.fields import AutoSlugField
 from Shamba.choices import COUNTY,SUBCOUNTY,SUBLOCATION,LOCATION,PERIOD
 from ckeditor.fields import RichTextField
 import uuid
+from django.contrib.postgres.indexes import GinIndex
+
 # Create your models here.
 def my_slugify_function(content):
     return content.replace('_', '-').lower()
@@ -86,19 +88,19 @@ class Service(models.Model):
 
     # TODO: Define fields here
     user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
-    title =models.CharField(_("Name"), max_length=50)
+    title =models.CharField(_("Name"), max_length=50,db_index=True)
     slug =models.UUIDField(default=uuid.uuid4, editable=False)
     category = models.ForeignKey(ServiceCategory, verbose_name=_("Category"), on_delete=models.CASCADE)
     tags = models.ManyToManyField(ServiceTag, verbose_name=_("Tags"))
     price = models.CharField(_("Price"), max_length=50)
     period = models.CharField(_("Period Per Price"), choices=PERIOD,max_length=50)
-    county = models.CharField(_("County"), choices=COUNTY, max_length=50)
-    sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50)
-    location = models.CharField(_("Location"), choices=LOCATION, max_length=50)
+    county = models.CharField(_("County"), choices=COUNTY, max_length=50,db_index=True)
+    sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50,db_index=True)
+    location = models.CharField(_("Location"), choices=LOCATION, max_length=50,db_index=True)
     sub_location = models.CharField(
-        _("Sublocation"), choices=SUBLOCATION, max_length=50
+        _("Sublocation"), choices=SUBLOCATION, max_length=50,db_index=True
     )
-    village = models.CharField(_("Village/Estate"), max_length=50)
+    village = models.CharField(_("Village/Estate"), max_length=50,db_index=True)
     description = RichTextField(_('Description About the tool'))
     updated = models.DateTimeField( auto_now=True, auto_now_add=False)
     created = models.DateTimeField(_(""), auto_now=False, auto_now_add=True)
@@ -109,6 +111,16 @@ class Service(models.Model):
 
         verbose_name = 'Service'
         verbose_name_plural = 'Services'
+        # indexes = [
+        #     GinIndex(name='ServicesGinIndex',fields=['title','county','sub_county','location','sub_location','village'], opclasses=[
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #         ],)
+        # ]
 
     def __str__(self):
         """Unicode representation of Service."""

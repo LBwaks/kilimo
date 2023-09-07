@@ -16,17 +16,17 @@
           <a class="nav-link" href="{% url 'add-land' %}">Addland</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" href="{% url 'my-bookmarks' user.username %}">My-Bookmarks</a>
+          {% comment %} <a class="nav-link" href="{% url 'my-bookmarks' user.username %}">My-Bookmarks</a> {% endcomment %}
         </li>
         {% comment %} for lands  {% endcomment %}
          <li class="nav-item">
           <a class="nav-link" href="{% url 'my-lands' %}">My-lands</a>
         </li> <li class="nav-item">
-          <a class="nav-link" href="{% url 'my-bookmarks' user.username %}">Land My-Bookmarks</a>
+          {% comment %} <a class="nav-link" href="{% url 'my-bookmarks' user.username %}">Land My-Bookmarks</a> {% endcomment %}
         </li>
         {% comment %} for tools  {% endcomment %}
         </li> <li class="nav-item">
-          <a class="nav-link" href="{% url 'my-tool-bookmarks' user.username %}">Tools My-Bookmarks</a>
+          {% comment %} <a class="nav-link" href="{% url 'my-tool-bookmarks' user.username %}">Tools My-Bookmarks</a> {% endcomment %}
         </li>
         </li> <li class="nav-item">
           <a class="nav-link" href="{% url 'my-tools' %}">My Tools</a>
@@ -39,12 +39,21 @@
             {{user.username}}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'profile' user.profile.slug %}">Profile</a></li>
+            
+            {% if user.is_authenicated %}
+              <li><a class="dropdown-item" href="{% url 'profile' user.profile.slug %}">Profile</a></li>
+            {% endif %}
+              
+            {% comment %} <li><a class="dropdown-item" href="{% url 'profile' user.profile.slug %}">Profile</a></li> {% endcomment %}
             <li><a class="dropdown-item" href="#"></a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
+        <li class="nav-item">
+          {% comment %} <a class="nav-link" href="{% url 'account_login' %}">Login</a> {% endcomment %}
+        </li>
+        
 
       </ul>
       <form class="d-flex" role="search">

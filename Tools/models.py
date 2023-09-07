@@ -7,6 +7,8 @@ from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 from Shamba.choices import COUNTY,SUBCOUNTY,SUBLOCATION,LOCATION,PERIOD
 from ckeditor.fields import RichTextField
+from django.contrib.postgres.indexes import GinIndex
+
 
 # Create your models here.
 
@@ -89,19 +91,19 @@ class Tool(models.Model):
 
     # TODO: Define fields here
     user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
-    title =models.CharField(_("Name"), max_length=50)
+    title =models.CharField(_("Name"), max_length=50,db_index=True)
     slug =AutoSlugField(populate_from="title")
     category = models.ForeignKey(Category, verbose_name=_("Category"), on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, verbose_name=_("Tags"))
     price = models.CharField(_("Price"), max_length=50)
-    period = models.CharField(_("Period Per Price"), choices=PERIOD,max_length=50)
-    county = models.CharField(_("County"), choices=COUNTY, max_length=50)
-    sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50)
-    location = models.CharField(_("Location"), choices=LOCATION, max_length=50)
+    period = models.CharField(_("Period Per Price"), choices=PERIOD,max_length=50,db_index=True)
+    county = models.CharField(_("County"), choices=COUNTY, max_length=50,db_index=True)
+    sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50,db_index=True)
+    location = models.CharField(_("Location"), choices=LOCATION, max_length=50,db_index=True)
     sub_location = models.CharField(
-        _("Sublocation"), choices=SUBLOCATION, max_length=50
+        _("Sublocation"), choices=SUBLOCATION, max_length=50,db_index=True
     )
-    village = models.CharField(_("Village/Estate"), max_length=50)
+    village = models.CharField(_("Village/Estate"), max_length=50,db_index=True)
     description = RichTextField(_('Description About the tool'))
     updated = models.DateTimeField( auto_now=True, auto_now_add=False)
     created = models.DateTimeField(_(""), auto_now=False, auto_now_add=True)
@@ -111,6 +113,16 @@ class Tool(models.Model):
 
         verbose_name = 'Tool'
         verbose_name_plural = 'Tools'
+        # indexes = [
+        #     GinIndex(name='ToolGinIndex',fields=['title','county','sub_county','location','sub_location','village'], opclasses=[
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #         ],)
+        # ]
 
     def __str__(self):
         """Unicode representation of Tool."""

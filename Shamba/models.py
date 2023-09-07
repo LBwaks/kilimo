@@ -10,6 +10,8 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 from django_extensions.db.fields import AutoSlugField
 from .choices import COUNTY, LOCATION, SUBCOUNTY, SUBLOCATION,UNITS
+from django.contrib.postgres.indexes import GinIndex
+
 
 # Create your models here.
 class LandCategory(models.Model):
@@ -111,20 +113,20 @@ class Land(models.Model):
     """Model definition for Lands."""
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(_("Title"), max_length=50)
-    land_id = models.CharField(_("Land Id"), unique=True, max_length=12)
+    title = models.CharField(_("Title"), max_length=50,db_index=True)
+    land_id = models.CharField(_("Land Id"), unique=True, max_length=12,db_index=True)
     type = models.ForeignKey(LandCategory, verbose_name=_("Category"), related_name="land_category",on_delete=models.CASCADE)
     tags = models.ManyToManyField(LandTag, verbose_name=_("Tags"))
     slug = models.UUIDField(default=uuid.uuid4, editable=False)
     shamba_id = models.CharField(_("Proof Of Ownership"), max_length=50)
     zipcode = models.CharField(_("Zipcode"), max_length=50)
-    county = models.CharField(_("County"), choices=COUNTY, max_length=50)
-    sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50)
-    location = models.CharField(_("Location"), choices=LOCATION, max_length=50)
+    county = models.CharField(_("County"), choices=COUNTY, max_length=50,db_index=True)
+    sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50,db_index=True)
+    location = models.CharField(_("Location"), choices=LOCATION, max_length=50,db_index=True)
     sub_location = models.CharField(
-        _("Sublocation"), choices=SUBLOCATION, max_length=50
+        _("Sublocation"), choices=SUBLOCATION, max_length=50,db_index=True
     )
-    village = models.CharField(_("Village/Estate"), max_length=50)
+    village = models.CharField(_("Village/Estate"), max_length=50,db_index=True)
      
     size = models.FloatField(_("Land Size"))
     size_units = models.CharField(_("Size Unit"),choices=UNITS, max_length=50)
@@ -155,6 +157,16 @@ class Land(models.Model):
 
         verbose_name = "Land"
         verbose_name_plural = "Lands"
+        # indexes = [
+        #     GinIndex(name='LandGinIndex',fields=['title','county','sub_county','location','sub_location','village'], opclasses=[
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #             'gin_trgm_ops',
+        #         ],)
+        # ]
 
     def __str__(self):
         """Unicode representation of Land."""
