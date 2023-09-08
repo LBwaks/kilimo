@@ -18,12 +18,14 @@ from django.conf import settings
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # tell django where to get env variables keys
-load_dotenv(os.path.join(BASE_DIR, "env"))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-d6(n-0+!kor@0-j3a*!d%s)w5d040k@95&n5x)akxqj^g!r=q("
+# SECRET_KEY = "django-insecure-d6(n-0+!kor@0-j3a*!d%s)w5d040k@95&n5x)akxqj^g!r=q("
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -206,7 +208,7 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN =180
-ACCOUNT_EMAIL_MAX_LENGT = 254
+ACCOUNT_EMAIL_MAX_LENGTH = 254
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 # ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False

@@ -53,7 +53,7 @@ class LandListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.select_related(
-            "period_lease", "owner", "type"
+            "period_lease", "owner", "category"
         ).prefetch_related("tags")
         return queryset
 
@@ -76,7 +76,7 @@ class LandDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         land = self.get_object()
         tags_id = land.tags.values_list('id',flat = True)
-        similar_lands = Land.objects.prefetch_related('tags').select_related('owner','type','period_lease').filter(Q(type=land.type)| Q(tags__in = tags_id)).exclude(id=land.id)[:5]       
+        similar_lands = Land.objects.prefetch_related('tags').select_related('owner','category','period_lease').filter(Q(category=land.category)| Q(tags__in = tags_id)).exclude(id=land.id)[:5]       
         context ={'land':land,"similar_lands":similar_lands}
         return context
 
@@ -121,7 +121,7 @@ class LandWizard(SessionWizardView):
             size=land_data["size"],
             charge=land_data["charge"],
             period_lease=land_data["period_lease"],
-            type=land_data["type"],
+            category=land_data["category"],
             tags=land_data["tags"],
             # form_list 2
             climate=land_resourse_data["climate"],
@@ -241,7 +241,7 @@ class MyLands(ListView):
             super()
             .get_queryset()
             .order_by("-created")
-            .select_related("owner", "type", "period_lease")
+            .select_related("owner", "category", "period_lease")
             .prefetch_related("tags")
         )
         lands = queryset.filter(owner=self.request.user)
@@ -262,7 +262,7 @@ class UsersLand(ListView):
             super()
             .get_queryset()
             .order_by("-created")
-            .select_related("owner", "type", "period_lease")
+            .select_related("owner", "category", "period_lease")
             .prefetch_related("tags")
         )
         if not user:
@@ -283,10 +283,10 @@ class LandByCategory(ListView):
             super()
             .get_queryset()
             .order_by("-created")
-            .select_related("owner", "type", "period_lease")
+            .select_related("owner", "category", "period_lease")
             .prefetch_related("tags")
         )
-        lands = queryset.filter(type=self.category)
+        lands = queryset.filter(category=self.category)
         return lands
 
 
@@ -302,7 +302,7 @@ class LandByTag(ListView):
             super()
             .get_queryset()
             .order_by("-created")
-            .select_related("owner", "type", "period_lease")
+            .select_related("owner", "category", "period_lease")
             .prefetch_related("tags")
         )
         lands = queryset.filter(tags=self.tag)
@@ -337,7 +337,7 @@ class LandFilterView(FilterView):
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = Land.objects.select_related(
-            "owner", "type", "period_lease"
+            "owner", "category", "period_lease"
         ).prefetch_related("tags")
         land_filter = LandFilter(self.request.GET, queryset=queryset)
         return land_filter.qs

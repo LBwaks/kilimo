@@ -3,7 +3,7 @@ from .models import Land,LandCategory,LandTag,LeasePeriod
 from .choices import COUNTY,SUBCOUNTY,LOCATION
 
 class LandFilter(django_filters.FilterSet):
-    type=django_filters.ModelChoiceFilter(queryset = LandCategory.objects.all()),
+    category=django_filters.ModelChoiceFilter(queryset = LandCategory.objects.all()),
     tags = django_filters.ModelChoiceFilter(queryset =LandTag.objects.all()),
     size = django_filters.RangeFilter(),
     charge=django_filters.RangeFilter(),
@@ -15,7 +15,7 @@ class LandFilter(django_filters.FilterSet):
     class Meta:
         model = Land
         fields = [
-            "type",
+            "category",
             "tags",
             "size",
             "charge",

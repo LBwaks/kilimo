@@ -6,7 +6,7 @@ from .models import Profile
 class ProfileAdmin(admin.ModelAdmin):
     '''Admin View for Profile'''
 
-    list_display = ('firstname','lastname','tell','status','county')
+    list_display = ('firstname','lastname','phone_number','status','county')
     # list_filter = ('',)
     # inlines = [
     #     Inline,

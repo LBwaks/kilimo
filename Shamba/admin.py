@@ -10,7 +10,7 @@ from .models import LeasePeriod, Land,LandCategory,LandCoordiates,LandTag
 class LandCategoryAdmin(admin.ModelAdmin):
     '''Admin View for LandCategory'''
 
-    list_display = ('type',"is_featured")
+    list_display = ('name',"is_featured")
     # list_filter = ('',)
     # inlines = [
     #     Inline,
@@ -48,7 +48,7 @@ class LeasePeriodAdmin(admin.ModelAdmin):
 class LandAdmin(admin.ModelAdmin):
     """Admin View for ShAdmin"""
 
-    list_display = ("title","land_id", "shamba_id", "type")
+    list_display = ("title","land_id", "shamba_id", "category")
     # list_filter = ('',)
     # inlines = [
     #     Inline,

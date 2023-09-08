@@ -97,6 +97,7 @@ class Tool(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name=_("Tags"))
     price = models.CharField(_("Price"), max_length=50)
     period = models.CharField(_("Period Per Price"), choices=PERIOD,max_length=50,db_index=True)
+    inventory = models.IntegerField(default=0)
     county = models.CharField(_("County"), choices=COUNTY, max_length=50,db_index=True)
     sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50,db_index=True)
     location = models.CharField(_("Location"), choices=LOCATION, max_length=50,db_index=True)

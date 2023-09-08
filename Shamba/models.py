@@ -23,8 +23,8 @@ class LandCategory(models.Model):
         related_name="user_land_category",
         on_delete=models.CASCADE,
     )
-    type = models.CharField(max_length=50, unique=True)
-    slug = AutoSlugField(populate_from="type")
+    name = models.CharField(max_length=50, unique=True)
+    slug = AutoSlugField(populate_from="name")
     description = models.TextField(max_length=250)
     is_published = models.BooleanField(default=True)
     # objects = models.Manager()
@@ -35,12 +35,12 @@ class LandCategory(models.Model):
     class Meta:
         """Meta definition for LandCategory."""
 
-        verbose_name = 'LandCategory'
-        verbose_name_plural = 'LandCategorys'
+        verbose_name = 'Land Category'
+        verbose_name_plural = 'Land Categoryies'
 
     def __str__(self):
         """Unicode representation of LandCategory."""
-        return self.type
+        return self.name
 
     # def save(self):
     #     """Save method for LandCategory."""
@@ -69,8 +69,8 @@ class LandTag(models.Model):
     class Meta:
         """Meta definition for LandTag."""
 
-        verbose_name = 'LandTag'
-        verbose_name_plural = 'LandTags'
+        verbose_name = 'Land Tag'
+        verbose_name_plural = 'Land Tags'
 
     def __str__(self):
         """Unicode representation of LandTag."""
@@ -115,7 +115,7 @@ class Land(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(_("Title"), max_length=50,db_index=True)
     land_id = models.CharField(_("Land Id"), unique=True, max_length=12,db_index=True)
-    type = models.ForeignKey(LandCategory, verbose_name=_("Category"), related_name="land_category",on_delete=models.CASCADE)
+    category = models.ForeignKey(LandCategory, verbose_name=_("Category"),on_delete=models.CASCADE)
     tags = models.ManyToManyField(LandTag, verbose_name=_("Tags"))
     slug = models.UUIDField(default=uuid.uuid4, editable=False)
     shamba_id = models.CharField(_("Proof Of Ownership"), max_length=50)

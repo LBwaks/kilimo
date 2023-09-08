@@ -10,7 +10,7 @@ class ProfileForm(forms.ModelForm):
     """Form definition for Profile."""
     other = forms.CharField(label='Please Explain',widget=CKEditorWidget(attrs={'class':'form-control other'}))
     bio = forms.CharField(label="Bio",widget=CKEditorWidget(attrs={'class':'form-control bio'}))
-    tell = PhoneNumberField(region="KE",widget=PhoneNumberPrefixWidget(country_choices=[('KE','Kenya')]))
+    phone_number = PhoneNumberField(region="KE",widget=PhoneNumberPrefixWidget(country_choices=[('KE','Kenya')]))
     class Meta:
         """Meta definition for Profileform."""
 
@@ -18,8 +18,8 @@ class ProfileForm(forms.ModelForm):
         fields = (
             "firstname",
             "lastname",
-            "email",
-            "tell",
+            # "email",
+            "phone_number",
             "county",
             "sub_county",
             "location",
@@ -36,7 +36,7 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             "firstname":forms.TextInput(attrs={'class':'form-control fname',"required":True}),
             "lastname":forms.TextInput(attrs={'class':'form-control lname',"required":True}),
-            "email":forms.EmailInput(attrs={'class':'form-control email',"required":True}),
+            # "email":forms.EmailInput(attrs={'class':'form-control email',"required":True}),
             
             "county": forms.Select(attrs={'class': 'control-select county', 'required': True}),
             "sub_county": forms.Select(attrs={'class': 'control-select sub_county', 'required': True}),
