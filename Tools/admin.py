@@ -56,3 +56,17 @@ class ToolAdmin(admin.ModelAdmin):
     def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
         obj.user = request.user
         return super().save_model(request, obj, form, change)
+@admin.register(ToolImage)
+class ToolImageAdmin(admin.ModelAdmin):
+    '''Admin View for ToolImage'''
+
+    list_display = ('tool',)
+    # list_filter = ('',)
+    # inlines = [
+    #     Inline,
+    # ]
+    # raw_id_fields = ('',)
+    # readonly_fields = ('',)
+    # search_fields = ('',)
+    # date_hierarchy = ''
+    # ordering = ('',)

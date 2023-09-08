@@ -3,7 +3,24 @@ from django import forms
 
 from .models import Category, Tag, Tool, ToolImage
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
 
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+    
+    
 class ToolForm(forms.ModelForm):
     """Form definition for Tool."""
 
@@ -24,12 +41,12 @@ class ToolForm(forms.ModelForm):
             attrs={"required": True, "class": "form-control description"}
         ),
     )
-    # images = forms.ImageField(
-    #     # required=True,
-    #     widget=forms.ClearableFileInput(
-    #         attrs={ "required": True, "class": "form-control image",}
-    #     ),
-    # )
+    images = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={
+        'required': False,
+        'class': 'form-control images',
+        # 'multiple': True
+    }))
+    # images=MultipleFileField()
 
     class Meta:
         """Meta definition for Toolform."""
@@ -44,6 +61,7 @@ class ToolForm(forms.ModelForm):
             "sub_county":'Sub County',
             "location":'Location',
             "village":'Village',
+            'inventory':'Available Units'
             
         }
         fields = (
@@ -58,12 +76,14 @@ class ToolForm(forms.ModelForm):
             "sub_location",
             "village",
             "description",
+            'inventory',
         )
         widget ={
             "title": forms.TextInput(attrs={'class': 'control-form title', 'required': True}),
             "category": forms.Select(attrs={'class': 'control-select category', 'required': True}),
             "price":forms.TextInput(attrs={'class':"form-control price",'required':True}),
             "period": forms.Select(attrs={'class': 'control-select period', 'required': True}),
+            "inventory":forms.TextInput(attrs={'class':"form-control inventory",'required':True}),
             "county": forms.Select(attrs={'class': 'control-select county', 'required': True}),
             "sub_county": forms.Select(attrs={'class': 'control-select sub_county', 'required': True}),
             "location": forms.Select(attrs={'class': 'control-select location', 'required': True}),
@@ -112,6 +132,7 @@ class ToolUpdateForm(forms.ModelForm):
             "sub_county":'Sub County',
             "location":'Location',
             "village":'Village',
+             'inventory':'Available Units'
             
         }
         fields = (
@@ -120,6 +141,7 @@ class ToolUpdateForm(forms.ModelForm):
             "tags",
             "price",
             "period",
+            'inventory',
             "county",
             "sub_county",
             "location",
@@ -132,6 +154,7 @@ class ToolUpdateForm(forms.ModelForm):
             "price":forms.TextInput(attrs={'class':"form-control price",'required':True}),
             "period": forms.Select(attrs={'class': 'control-select period', 'required': True}),
             "county": forms.Select(attrs={'class': 'control-select county', 'required': True}),
+            "inventory":forms.TextInput(attrs={'class':"form-control inventory",'required':True}),
             "sub_county": forms.Select(attrs={'class': 'control-select sub_county', 'required': True}),
             "location": forms.Select(attrs={'class': 'control-select location', 'required': True}),
             "location": forms.TextInput(attrs={'class': 'control-form location', 'required': True}),

@@ -59,14 +59,17 @@ class ToolCreateView(CreateView):
     template_name = "tools/add-tools.html"
     form_class = ToolForm
 
-    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+    def form_valid(self, form):
         tool = form.save(commit=False)
         tool.user = self.request.user
-        images = self.request.FILES.getlist("images")
+        images = self.request.FILES.getlist('images')
+        # tool_images = form.cleaned_data["images"]
+        
         for image in images:
             ToolImage.objects.create(tool=tool, image=image)
+            
         tool.save()
-        return super().form_valid(form)
+        return super(ToolCreateView,self).form_valid(form)
 
 
 class ToolUpdateView(UpdateView):

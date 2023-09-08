@@ -31,8 +31,62 @@
         </li> <li class="nav-item">
           <a class="nav-link" href="{% url 'my-tools' %}">My Tools</a>
         </li>
-        <li class="nav-item">
+        {% comment %} <li class="nav-item">
           <a class="nav-link " href="{% url 'add-tools' %}">Add tool</a>
+        </li> {% endcomment %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Tools
+          </a>
+          <ul class="dropdown-menu">
+            
+            
+            
+              <li><a class="dropdown-item" href="{% url 'tools' %}">Tools</a></li>
+              <li><a class="dropdown-item" href="{% url 'add-tools' %}">Add Tools</a></li>
+            
+              
+            {% comment %} <li><a class="dropdown-item" href="{% url 'profile' user.profile.slug %}">Profile</a></li> {% endcomment %}
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><hr class="dropdown-divider"></li>
+           
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{user.username}}
+          </a>
+          <ul class="dropdown-menu">
+            
+            
+            
+              <li><a class="dropdown-item" href="{% url 'profile' user.profile.slug %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
+            
+              
+            {% comment %} <li><a class="dropdown-item" href="{% url 'profile' user.profile.slug %}">Profile</a></li> {% endcomment %}
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><hr class="dropdown-divider"></li>
+           
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{user.username}}
+          </a>
+          <ul class="dropdown-menu">
+            
+            
+            
+              <li><a class="dropdown-item" href="{% url 'profile' user.profile.slug %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
+            
+              
+            {% comment %} <li><a class="dropdown-item" href="{% url 'profile' user.profile.slug %}">Profile</a></li> {% endcomment %}
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><hr class="dropdown-divider"></li>
+           
+          </ul>
         </li>
         {% if user.is_authenticated %}
          <li class="nav-item dropdown">

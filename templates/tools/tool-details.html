@@ -32,15 +32,20 @@
     <p class="card-text"> sub location{{tool.sub_location}}</p>
     <p class="card-text">village: {{tool.village}}</p>
     <p class="card-text">descrition: {{tool.description}}</p>
-
-    <p class="card-text"> Ceated: {{tool.created}}</p>
-
+<p class="card-text"> Stock: {{tool.inventory}}</p>
+    <p class="card-text"> Created: {{tool.created}}</p>
+{% comment %} {{tool.tool_images.image}} {% endcomment %}
   </div>
-  <img src="..." class="card-img-bottom" alt="...">
+  {% for image in tool.tool_images.all %}
+   <img src="{{image.image.url}}" class="card-img-bottom" alt="...">
+   
+  {% endfor %}
+ 
 </div>
 <a href="{% url 'tool-update' tool.slug %}" class="btn btn-primary">Update tool </a>
 <a href="{% url 'tool-delete' tool.slug %}" class="btn btn-danger">Delete tool</a>
 <a href="{% url 'tool-bookmark' tool.slug %}" class="btn btn-secondary">Bookmark land</a>
+<a href="{% url 'tool-bookmark' tool.slug %}" class="btn btn-success">Hire Tool</a>
 {% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
     </div>
     <div class="col-md-4">

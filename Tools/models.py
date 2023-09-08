@@ -97,7 +97,7 @@ class Tool(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name=_("Tags"))
     price = models.CharField(_("Price"), max_length=50)
     period = models.CharField(_("Period Per Price"), choices=PERIOD,max_length=50,db_index=True)
-    inventory = models.IntegerField(default=0)
+    inventory = models.IntegerField(default=1)
     county = models.CharField(_("County"), choices=COUNTY, max_length=50,db_index=True)
     sub_county = models.CharField(_("Subcounty"), choices=SUBCOUNTY, max_length=50,db_index=True)
     location = models.CharField(_("Location"), choices=LOCATION, max_length=50,db_index=True)
@@ -145,19 +145,19 @@ class ToolImage(models.Model):
     """Model definition for ToolImage."""
 
     # TODO: Define fields here
-    tools= models.ForeignKey(Tool, verbose_name=_(""), on_delete=models.CASCADE)
-    image = models.ImageField(_(""), upload_to="tools", height_field=None, width_field=None, max_length=None)
+    tool= models.ForeignKey(Tool, verbose_name=_(""), related_name='tool_images',on_delete=models.CASCADE)
+    image = models.ImageField(_(""), upload_to="tools",)
     created = models.DateTimeField(_(""), auto_now=False, auto_now_add=True)
     class Meta:
         """Meta definition for ToolImage."""
         
 
-        verbose_name = 'ToolImage'
-        verbose_name_plural = 'ToolImages'
+        verbose_name = 'Tool Image'
+        verbose_name_plural = 'Tool Images'
 
     def __str__(self):
         """Unicode representation of ToolImage."""
-        pass
+        return f'{self.tool.title}-{self.id}'
 
     # def save(self):
     #     """Save method for ToolImage."""
