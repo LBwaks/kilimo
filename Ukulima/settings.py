@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "Tools",
     "Services",
     "Produce",
+    'Cart',
     # 'Account',
     "Profile",
     "allauth",
