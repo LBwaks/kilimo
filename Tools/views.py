@@ -20,6 +20,8 @@ from Tools.filters import ToolFilter
 from .forms import ToolForm, ToolUpdateForm
 from .models import BookmarkedTool, Category, Tag, Tool, ToolImage
 from django.db.models import Count,Q
+from django.contrib.contenttypes.models import  ContentType
+from Cart.models import Cart, CartItem
 # Create your views here.
 
 
@@ -47,10 +49,11 @@ class ToolDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        content_type = ContentType.objects.get_for_model(Tool)
         tool = self.get_object()
         tags_id = tool.tags.values_list('id',flat=True)
         similar_tools = Tool.objects.select_related('user','category').prefetch_related('tags').filter(Q(category=tool.category) | Q(tags__in = tags_id)).exclude(id=tool.id)[:5]
-        context={'tool':tool,"similar_tools":similar_tools}
+        context={'tool':tool,"similar_tools":similar_tools,'content_type':content_type}
         return context
 
 
@@ -256,4 +259,12 @@ class ToolFilterView(FilterView):
         context["tool_filter"] = ToolFilter(self.request.GET, queryset=self.get_queryset())
         return context
     
+def add_to_cart(request,content_type_id,object_id):
+    content_type = get_object_or_404(ContentType,id=content_type_id)
+    content_object =content_type.get_object_for_this_type(id=object_id)
+    if request.user.is_authenticated:
+        cart,created= Cart.objects.get_or_create(user=request.user)
+        cart.add_item(content_object)
+    return redirect('tools')
+        
     

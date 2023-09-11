@@ -34,7 +34,7 @@
     <p class="card-text">descrition: {{tool.description}}</p>
 <p class="card-text"> Stock: {{tool.inventory}}</p>
     <p class="card-text"> Created: {{tool.created}}</p>
-{% comment %} {{tool.tool_images.image}} {% endcomment %}
+content type id ={{content_type.id}}
   </div>
   {% for image in tool.tool_images.all %}
    <img src="{{image.image.url}}" class="card-img-bottom" alt="...">
@@ -45,7 +45,7 @@
 <a href="{% url 'tool-update' tool.slug %}" class="btn btn-primary">Update tool </a>
 <a href="{% url 'tool-delete' tool.slug %}" class="btn btn-danger">Delete tool</a>
 <a href="{% url 'tool-bookmark' tool.slug %}" class="btn btn-secondary">Bookmark land</a>
-<a href="{% url 'tool-bookmark' tool.slug %}" class="btn btn-success">Add to Cart</a>
+<a href="{% url 'add-cart' content_type_id=content_type.id object_id=tool.id %}" class="btn btn-success">Add to Cart</a>
 {% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
     </div>
     <div class="col-md-4">

@@ -21,7 +21,9 @@
         {% comment %} for lands  {% endcomment %}
          <li class="nav-item">
           <a class="nav-link" href="{% url 'my-lands' %}">My-lands</a>
-        </li> <li class="nav-item">
+        </li> 
+        
+        <li class="nav-item">
           {% comment %} <a class="nav-link" href="{% url 'my-bookmarks' user.username %}">Land My-Bookmarks</a> {% endcomment %}
         </li>
         {% comment %} for tools  {% endcomment %}
@@ -112,6 +114,14 @@
           <a class="nav-link" href="{% url 'account_login' %}">Login</a>
         </li>
         {% endif %}
+
+        
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+        </li> 
+        {% endif %}
+          
         
 
       </ul>

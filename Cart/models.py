@@ -12,7 +12,7 @@ class CartItem(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     quantity = models.PositiveIntegerField(default=1)
-    price = models.PositiveIntegerField()
+    # price = models.PositiveIntegerField()
     
 
     class Meta:

@@ -12,7 +12,8 @@ from .views import (
     bookmark,
     ToolDeleteView,
     ToolUpdateView,
-    ToolFilterView
+    ToolFilterView,
+    add_to_cart
 )
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
     path("tool-category/<slug>", ToolByCategory.as_view(), name="tool-category"),
     path("tool-tags/<slug>", ToolByTag.as_view(), name="tool-tags"),
     path("tool-filters/", ToolFilterView.as_view(), name="tool-filter"),
+    path('add-cart/<int:content_type_id>/<int:object_id>/',add_to_cart,name="add-cart"),
 ]
