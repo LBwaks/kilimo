@@ -265,6 +265,6 @@ def add_to_cart(request,content_type_id,object_id):
     if request.user.is_authenticated:
         cart,created= Cart.objects.get_or_create(user=request.user)
         cart.add_item(content_object)
-    return redirect('tools')
+    return redirect('cart')
         
     

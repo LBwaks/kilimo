@@ -19,7 +19,7 @@
     <p class="card-text">Shamba Id{{land.shamba_id}} </p>
     <p class="card-text"> Locaation: {{land.location}}</p>
     <p class="card-text">Size :{{land.size}} </p>
-    <p class="card-text"> <a href="{% url 'land-category' land.type.slug %}">{{land.type}}</a> </p>
+    <p class="card-text"> <a href="{% url 'land-category' land.category.slug %}">{{land.category}}</a> </p>
     <p class="card-text">Climate :{{land.climate}} </p>
     <p class="card-text">Previous Farming:{{land.previous_farming}} </p>
     <p class="card-text">Water source:{{land.water_source}} </p>
@@ -37,12 +37,13 @@
 <a href="{% url 'land-delete' land.slug %}" class="btn btn-danger">Delete land</a>
 <a href="{% url 'bookmark' land.slug %}" class="btn btn-secondary">Bookmark land</a>
 <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a>
+<a href="{% url 'add-cart' content_type_id=content_type.id object_id=land.id %}" class="btn btn-success">Add to Cart</a>
         </div>
         <div class="col-md-4">
 <h1>sidebar</h1>
 {% for similar_land in similar_lands %}
 <p>title: {{similar_land.title}} </p>
-<p>category : {{similar_land.type}}</p>
+<p>category : {{similar_land.category}}</p>
 {% empty %}
 <p>no similar land</p>
 {% endfor %}

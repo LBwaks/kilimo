@@ -42,7 +42,8 @@ from .models import (
     LandImages,
     LandTag,
 )
-
+from django.contrib.contenttypes.models import  ContentType
+from Cart.models import Cart, CartItem
 # Create your views here.
 
 
@@ -75,9 +76,10 @@ class LandDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         land = self.get_object()
+        content_type = ContentType.objects.get_for_model(Land)
         tags_id = land.tags.values_list('id',flat = True)
         similar_lands = Land.objects.prefetch_related('tags').select_related('owner','category','period_lease').filter(Q(category=land.category)| Q(tags__in = tags_id)).exclude(id=land.id)[:5]       
-        context ={'land':land,"similar_lands":similar_lands}
+        context ={'land':land,"similar_lands":similar_lands,"content_type":content_type}
         return context
 
 

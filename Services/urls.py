@@ -1,5 +1,5 @@
 from django.urls import path
-
+from Tools.views import add_to_cart
 from .views import (
     ServiceCreateView,
     ServiceDeleteView,
@@ -30,6 +30,7 @@ urlpatterns = [
     path("users-tools/<username>", UsersService.as_view(), name="users-services"),
     path("service-category/<slug>", ServiceByCategory.as_view(), name="service-category"),
     path("service-tags/<slug>", ServiceByTag.as_view(), name="service-tags"),
-    path("service-filter/", ServiceFilterView.as_view(), name="service-filter")
+    path("service-filter/", ServiceFilterView.as_view(), name="service-filter"),
+    path('add-cart/<int:content_type_id>/<int:object_id>/',add_to_cart,name="add-cart"),
 
 ]

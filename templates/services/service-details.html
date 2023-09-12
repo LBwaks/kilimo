@@ -41,6 +41,7 @@
 <a href="{% url 'service-update' service.slug %}" class="btn btn-primary">Update service </a>
 <a href="{% url 'service-delete' service.slug %}" class="btn btn-danger">Delete service</a>
 <a href="{% url 'service-bookmark' service.slug %}" class="btn btn-secondary">Bookmark land</a>
+<a href="{% url 'add-cart' content_type_id=content_type.id object_id=service.id %}" class="btn btn-success">Add to Cart</a>
 {% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
     </div>
     <div class="col-md-4">

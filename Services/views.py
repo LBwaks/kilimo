@@ -26,6 +26,8 @@ from .models import (
     ServiceImage,
     ServiceTag,
 )
+from django.contrib.contenttypes.models import ContentType
+# from Cart.models import Cart , CartItem
 
 # Create your views here.
 
@@ -60,6 +62,7 @@ class ServiceDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         service = self.get_object()
+        content_type = ContentType.objects.get_for_model(Service)
         tag_ids = service.tags.values_list("id", flat=True)
         print(tag_ids)
         similar_services = (
@@ -68,7 +71,7 @@ class ServiceDetailView(DetailView):
             .filter(Q(category=service.category) | Q(tags__in=tag_ids))
             .exclude(id=service.id)[:5]
         )
-        context = {"service": service, "similar_services": similar_services}
+        context = {"service": service, "similar_services": similar_services,"content_type":content_type}
         return context
 
 

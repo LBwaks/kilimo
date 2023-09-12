@@ -1,5 +1,5 @@
 from django.urls import path
-
+from Tools.views import add_to_cart
 from .views import (
     LandByCategory,
     LandDeleteView,
@@ -29,5 +29,6 @@ urlpatterns = [
     path("land-by-category/<slug>", LandByCategory.as_view(), name="land-category"),
     path("land-by-tag/<slug>", LandByTag.as_view(), name="land-tag"),
     path("add-coordinates/<slug>", LandCoordinateCreateView.as_view(), name="add-coordinates"),
-    path("land-filters/", LandFilterView.as_view(), name="land-filter")
+    path("land-filters/", LandFilterView.as_view(), name="land-filter"),
+    path('add-cart/<int:content_type_id>/<int:object_id>/',add_to_cart,name="add-cart"),
 ]
