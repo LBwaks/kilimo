@@ -16,8 +16,7 @@ class Category(models.Model):
     """Model definition for Category."""
 
     # TODO: Define fields here
-    title = models.CharField(max_length=50, unique=True)
-    
+    title = models.CharField(max_length=50, unique=True)    
     slug = AutoSlugField(populate_from="title")
     description = models.TextField(max_length=250)
     user = models.ForeignKey(User, verbose_name=_(""),related_name="tool_category_user", on_delete=models.CASCADE)
