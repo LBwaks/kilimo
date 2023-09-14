@@ -127,3 +127,20 @@ class Produce(models.Model):
 #  indexes = [
             # GinIndex(name='ProduceGinIndex',fields=['title','keywords','shortDescription','details'],,opclasses=['gin_trgm_ops'])
         # ]
+class ProduceBookmark(models.Model):
+    """Model definition for ProduceBookmark."""
+
+    # TODO: Define fields here
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    produce = models.ForeignKey(Produce, related_name="bookmarked_produce" ,on_delete=models.CASCADE)
+    bookmark_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        """Meta definition for ProduceBookmark."""
+
+        verbose_name = 'Produce Bookmark'
+        verbose_name_plural = 'Produce Bookmarks'
+
+    def __str__(self):
+        """Unicode representation of Produce Bookmark."""
+        return f"{self.user.username} saved {self.produce.title}"

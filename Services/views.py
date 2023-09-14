@@ -131,7 +131,7 @@ class ServiceDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-# bookmars
+# bookmarks
 @login_required
 def bookmark(request, slug):
     service = get_object_or_404(Service, slug=slug)

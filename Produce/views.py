@@ -1,9 +1,10 @@
 from django.forms.models import BaseModelForm
-from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from .models import Produce,ProduceCategory,ProduceTag
+from .models import Produce,ProduceCategory,ProduceTag,ProduceBookmark
+from django.contrib.auth.decorators import login_required
 from .forms import ProduceForm,UpdateProduceForm
 from django.contrib import messages
 # Create your views here.
@@ -68,3 +69,33 @@ class ProduceDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
+
+# bookmarks
+@login_required
+def bookmark(request, slug):
+    produce = get_object_or_404(Produce, slug=slug)
+    bookmarked = ProduceBookmark.objects.filter(
+        produce=produce, user=request.user
+    ).exists()
+
+    if bookmarked:
+        ProduceBookmark.objects.filter(produce=produce, user=request.user).delete()
+        message = "produce Unbookmarked"
+    else:
+        ProduceBookmark.objects.create(produce=produce, user=request.user)
+        message = "produce Bookmarked"
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+
+class ProduceBookmarks(ListView):
+    model = ProduceBookmark
+    template_name = "produce/produce-bookmarks.html"
+    context_object_name = "bookmarks"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        bookmarks = queryset.select_related("produce", "user").filter(
+            user=self.request.user
+        )
+        return bookmarks
+

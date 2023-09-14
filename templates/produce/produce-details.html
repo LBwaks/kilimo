@@ -36,7 +36,7 @@
 </div>
 <a href="{% url 'update-produce' produce.slug %}" class="btn btn-primary">Update Produce </a>
 <a href="{% url 'delete-produce' produce.slug %}" class="btn btn-danger">Delete Produce</a>
-{% comment %} <a href="{% url 'bookmark' land.slug %}" class="btn btn-secondary">Bookmark land</a> {% endcomment %}
+<a href="{% url 'bookmark' produce.slug %}" class="btn btn-secondary">Bookmark </a>
 {% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
 {% comment %} <a href="{% url 'add-cart' content_type_id=content_type.id object_id=land.id %}" class="btn btn-success">Add to Cart</a> {% endcomment %}
         </div>
