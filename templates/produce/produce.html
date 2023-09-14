@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    produces
+{% endblock title %}
+    
+{% block content %}
+<H1>i am services </H1>
+
+<div class="container"> 
+    <div class="row">
+        <div class="col-md-8">
+            
+        {% for produce in object_list %}
+            <div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="..." class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><a href="{{produce.get_absolute_url}}">{{produce.title}}</a> </h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+        {% empty %}
+        <p>No lands found </p>
+        {% endfor %}
+
+        </div>
+        <d<div class="col-md-4">
+            <H1>i am sidebar</H1>
+            {% comment %} <form action="{% url 'produce-filter' %}" method="get"> {% endcomment %}
+              {% csrf_token %}
+              {{filter.form|crispy}}
+              <button type="submit">Filter</button>
+            </form>
+            <div class="card text-center">
+  <div class="card-header">
+    Categories
+  </div>
+  <div class="card-body">
+    
+    {% for category in categories %}
+    <a href="{% url 'produce-category' category.slug %}"><span class="badge text-bg-secondary">   {{category.title}} </span></a>
+    {% empty %}
+    no category
+    {% endfor %}
+    
+
+  </div>
+  
+</div>
+
+<div class="card text-center">
+  <div class="card-header">
+    Tags
+  </div>
+  <div class="card-body">
+    {% for tag in tags %}
+    <a href="{% url 'produce-tags' tag.slug %}" class="href">
+<span class="badge text-bg-secondary">{{tag.name}}</span>
+    </a>
+    {% endfor %}
+    
+    
+
+  </div>
+  
+</div>
+<div class="card text-center">
+  <div class="card-header">
+    Popular Tags
+  </div>
+  <div class="card-body">
+    {% for tag in popular_tags %}
+    <a href="{% url 'produce-tags' tag.slug %}" class="href">{{tag.num_lands}} 
+<span class="badge text-bg-secondary">{{tag.name}}</span>
+    </a>
+    {% endfor %}
+    
+    
+
+  </div>
+  
+</div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

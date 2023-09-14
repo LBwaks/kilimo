@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.postgres.indexes import GinIndex
+from django.urls import reverse
 from django_extensions.db.fields import AutoSlugField
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
@@ -118,7 +119,7 @@ class Produce(models.Model):
 
     def get_absolute_url(self):
         """Return absolute url for Produce."""
-        return ('')
+        return reverse('produce-details',kwargs={"slug":self.slug})
 
     # TODO: Define custom methods here
 

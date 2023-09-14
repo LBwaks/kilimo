@@ -11,33 +11,34 @@
         <div class="col-md-8">
 <div class="card">
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    <p class="card-text">Owner: <a href="{% url 'users-lands' land.owner.username %}">{{land.owner}}</a>  </p>
-    <p class="card-text">Land ID: {{land.land_id}} </p>
-    <p class="card-text">Shamba Id{{land.shamba_id}} </p>
-    <p class="card-text"> Locaation: {{land.location}}</p>
-    <p class="card-text">Size :{{land.size}} </p>
-    <p class="card-text"> <a href="{% url 'land-category' land.category.slug %}">{{land.category}}</a> </p>
-    <p class="card-text">Climate :{{land.climate}} </p>
-    <p class="card-text">Previous Farming:{{land.previous_farming}} </p>
-    <p class="card-text">Water source:{{land.water_source}} </p>
-    <p class="card-text">Electricity source :{{land.electricity_source}} </p>
-    <p class="card-text"> Period lease{{land.period_lease }}</p>
-    <p class="card-text">Charge: {{land.charge}}</p>
-    <p class="card-text">Existing Infreacture: {{land.existing_infrastructure}}</p>
-    <p class="card-text">Recommend Farmin{{land.recommended_farming}} </p>
-    <p class="card-text"> Ceated: {{land.created}}</p>
+    <h5 class="card-title">{{produce.title}}</h5>
+    <p class="card-text"><small class="text-muted">{{produce.created}}</small></p>
+    {% comment %} <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> {% endcomment %}
+    {% comment %} <p class="card-text">User: <a href="{% url 'users-lands' land.owner.username %}">{{land.owner}}</a>  </p> {% endcomment %}
+    <p class="card-text">Category: {{produce.category}} </p>
+    <p class="card-text">Tags:
+      {% for tag in produce.tags.all %}
+      <a href="" class="href">{{tag.name}}</a>
+      {% endfor %}
+      </p>
+    <p class="card-text"> Growth way: {{produce.growth_way}}</p>
+    <p class="card-text">Describe growth :{{produce.organic_description}} </p>
+    {% comment %} <p class="card-text"> <a href="{% url 'land-category' land.category.slug %}">{{land.category}}</a> </p> {% endcomment %}
+    <p class="card-text">Control growth :{{produce.control_growth}} </p>
+    {% comment %} <p class="card-text">Previous Farming:{{land.previous_farming}} </p> {% endcomment %}
+    <p class="card-text">Growth period:{{produce.growth.period}} </p>
+    <p class="card-text">growth_fertilizer :{{produce.growth_fertilizer}} </p>
+    <p class="card-text"> growth_pestcides:{{produce.growth_pestcides }}</p>
+    
 
   </div>
   <img src="..." class="card-img-bottom" alt="...">
 </div>
-<a href="{% url 'land-update' land.slug %}" class="btn btn-primary">Update land </a>
-<a href="{% url 'land-delete' land.slug %}" class="btn btn-danger">Delete land</a>
-<a href="{% url 'bookmark' land.slug %}" class="btn btn-secondary">Bookmark land</a>
-<a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a>
-<a href="{% url 'add-cart' content_type_id=content_type.id object_id=land.id %}" class="btn btn-success">Add to Cart</a>
+<a href="{% url 'update-produce' produce.slug %}" class="btn btn-primary">Update Produce </a>
+<a href="{% url 'delete-produce' produce.slug %}" class="btn btn-danger">Delete Produce</a>
+{% comment %} <a href="{% url 'bookmark' land.slug %}" class="btn btn-secondary">Bookmark land</a> {% endcomment %}
+{% comment %} <a href="{% url 'add-coordinates' land.slug %}" class="btn btn-success">Add Coordinates</a> {% endcomment %}
+{% comment %} <a href="{% url 'add-cart' content_type_id=content_type.id object_id=land.id %}" class="btn btn-success">Add to Cart</a> {% endcomment %}
         </div>
         <div class="col-md-4">
 <h1>sidebar</h1>
