@@ -12,7 +12,8 @@ from .views import (
     MyProduce,
     UsersProduce,
     ProduceByCategory,
-    ProduceByTag
+    ProduceByTag,
+    ProduceFilterView
 )
 
 urlpatterns = [
@@ -26,5 +27,6 @@ urlpatterns = [
     path("my-produce/", MyProduce.as_view(), name="my-produce"),
     path("user-produce/<username>", UsersProduce.as_view(), name="user-produce"),
     path("produce-category/<slug>", ProduceByCategory.as_view(), name="produce-category"),
-    path("produce-tag/<slug>", ProduceByTag.as_view(), name="produce-tag")
+    path("produce-tag/<slug>", ProduceByTag.as_view(), name="produce-tag"),
+    path("produce-filter",ProduceFilterView.as_view(),name="produce-filter")
 ]

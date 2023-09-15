@@ -9,6 +9,9 @@ from .forms import ProduceForm,UpdateProduceForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from .filters import ProduceFilter
+from django_filters.views import FilterView
+from django.core.paginator import Paginator
 # Create your views here.
 
 
@@ -19,6 +22,13 @@ class ProduceListView(ListView):
         queryset = super().get_queryset()
         queryset = queryset.select_related('user','category').prefetch_related('tags')
         return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] =ProduceFilter(
+            self.request.GET, queryset=self.get_queryset()
+        )
+        # context ={"filter":filter} 
+        return context
     
 
 class ProduceDetailView(DetailView):

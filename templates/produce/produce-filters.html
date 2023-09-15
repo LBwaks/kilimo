@@ -5,13 +5,13 @@
 {% endblock title %}
     
 {% block content %}
-<H1>i am services </H1>
+<H1>i am produces </H1>
 
 <div class="container"> 
     <div class="row">
         <div class="col-md-8">
             
-        {% for produce in object_list %}
+        {% for produce in produces %}
             <div class="card mb-3" style="max-width: 540px;">
   <div class="row g-0">
     <div class="col-md-4">
@@ -27,13 +27,13 @@
   </div>
 </div>
         {% empty %}
-        <p>No produces found </p>
+        <p>No lands found </p>
         {% endfor %}
 
         </div>
         <d<div class="col-md-4">
             <H1>i am sidebar</H1>
-            <form action="{% url 'produce-filter' %}" method="get">
+            <form action="{% url 'tool-filter' %}" method="get">
               {% csrf_token %}
               {{filter.form|crispy}}
               <button type="submit">Filter</button>
@@ -45,7 +45,7 @@
   <div class="card-body">
     
     {% for category in categories %}
-    <a href="{% url 'produce-category' category.slug %}"><span class="badge text-bg-secondary">   {{category.title}} </span></a>
+    <a href="{% url 'tool-category' category.slug %}"><span class="badge text-bg-secondary">   {{category.title}} </span></a>
     {% empty %}
     no category
     {% endfor %}
@@ -61,7 +61,7 @@
   </div>
   <div class="card-body">
     {% for tag in tags %}
-    <a href="{% url 'produce-tags' tag.slug %}" class="href">
+    <a href="{% url 'tool-tags' tag.slug %}" class="href">
 <span class="badge text-bg-secondary">{{tag.name}}</span>
     </a>
     {% endfor %}
@@ -77,7 +77,7 @@
   </div>
   <div class="card-body">
     {% for tag in popular_tags %}
-    <a href="{% url 'produce-tags' tag.slug %}" class="href">{{tag.num_lands}} 
+    <a href="{% url 'tool-tags' tag.slug %}" class="href">{{tag.num_lands}} 
 <span class="badge text-bg-secondary">{{tag.name}}</span>
     </a>
     {% endfor %}
