@@ -9,6 +9,10 @@ from .views import (
     ProduceUpdateView,
     bookmark,
     ProduceBookmarks,
+    MyProduce,
+    UsersProduce,
+    ProduceByCategory,
+    ProduceByTag
 )
 
 urlpatterns = [
@@ -18,5 +22,9 @@ urlpatterns = [
     path("update-produce/<slug>", ProduceUpdateView.as_view(), name="update-produce"),
     path("delete-produce/<slug>", ProduceDeleteView.as_view(), name="delete-produce"),
     path("bookmark/<slug>", bookmark, name="bookmark"),
-    path("produce-bookmarks/", ProduceBookmarks.as_view(), name="produce-bookmarks")
+    path("produce-bookmarks/", ProduceBookmarks.as_view(), name="produce-bookmarks"),
+    path("my-produce/", MyProduce.as_view(), name="my-produce"),
+    path("user-produce/<username>", UsersProduce.as_view(), name="user-produce"),
+    path("produce-category/<slug>", ProduceByCategory.as_view(), name="produce-category"),
+    path("produce-tag/<slug>", ProduceByTag.as_view(), name="produce-tag")
 ]

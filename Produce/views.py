@@ -7,6 +7,8 @@ from .models import Produce,ProduceCategory,ProduceTag,ProduceBookmark
 from django.contrib.auth.decorators import login_required
 from .forms import ProduceForm,UpdateProduceForm
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.utils.text import slugify
 # Create your views here.
 
 
@@ -98,4 +100,125 @@ class ProduceBookmarks(ListView):
             user=self.request.user
         )
         return bookmarks
+
+class MyProduce(ListView):
+    model = Produce
+    template_name = "produce/my-produce.html"
+    context_object_name = "produces"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        produces = (
+            queryset.filter(user=self.request.user)
+            .order_by("-created")
+            .select_related("user", "category")
+            .prefetch_related("tags")
+        )
+
+        return produces
+
+
+class UsersProduce(ListView):
+    model = Produce
+    template_name = "produce/user-produce.html"
+    context_object_name = "produces"
+
+    def get_queryset(self):
+        self.username = self.kwargs.get("username")  # get username
+        slugified_username = slugify(self.username)  # convert username to slug
+        user = User.objects.filter(username=slugified_username).first()
+        queryset = super().get_queryset()
+        if not user:
+            return Produce.objects.none()
+        produces = (
+            queryset.filter(user=user)
+            .order_by("-created")
+            .select_related(
+                "user",
+                "category",
+            )
+            .prefetch_related("tags")
+        )
+        return produces
+
+
+class ProduceByCategory(ListView):
+    model = Produce
+    template_name = "produce/produce-category.html"
+    context_object_name = "produces"
+
+    def get_queryset(self):
+        self.category = get_object_or_404(ProduceCategory, slug=self.kwargs.get("slug"))
+        queryset = (
+            super()
+            .get_queryset()
+            .select_related(
+                "user",
+                "category",
+            )
+            .prefetch_related("tags")
+        )
+        produces = queryset.filter(category=self.category)
+        return produces
+
+
+class ProduceByTag(ListView):
+    model = Produce
+    template_name = "produce/produce-tags.html"
+    context_object_name = "produces"
+
+    def get_queryset(self):
+        self.tags = get_object_or_404(ProduceTag, slug=self.kwargs.get("slug"))
+        queryset = (
+            super()
+            .get_queryset()
+            .select_related(
+                "user",
+                "category",
+            )
+            .prefetch_related("tags")
+        )
+        produces = queryset.filter(tags=self.tags)
+        return produces
+
+
+class ProduceFilterView(FilterView):
+    model = Produce
+    template_name = "produce/produce-filters.html"
+    filterset_class = ProduceFilter
+    paginate_by = 10
+
+    def get(self, request, *args, **kwargs):
+        produce_filter = ProduceFilter(request.GET, queryset=self.get_queryset())
+        paginator = Paginator(produce_filter.qs, self.paginate_by)
+        page_number = request.GET.get("page")
+        produces = paginator.get_page(page_number)
+        tags = ProduceTag.objects.select_related("user", "category")
+        categories = ProduceCategory.objects.select_related("user")
+        return render(
+            request,
+            self.template_name,
+            {
+                "produces": produces,
+                "tags": tags,
+                "categories": categories,
+                "produce_filter": produce_filter,
+            },
+        )
+
+    def get_queryset(self):
+        queryset = Produce.objects.select_related("user", "category").prefetch_related(
+            "tags"
+        )
+        produce_filter = ProduceFilter(self.request.GET, queryset=queryset)
+
+        return produce_filter.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["produce_filter"] = ProduceFilter(
+            self.request.GET, queryset=self.get_queryset()
+        )
+        return context
+
 
