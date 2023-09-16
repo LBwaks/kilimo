@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "Services",
     "Produce",
     'Cart',
+    'Bid',
     # 'Account',
     "Profile",
     "allauth",

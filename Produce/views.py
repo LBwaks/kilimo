@@ -12,6 +12,7 @@ from django.utils.text import slugify
 from .filters import ProduceFilter
 from django_filters.views import FilterView
 from django.core.paginator import Paginator
+from django.db.models import Count
 # Create your views here.
 
 
@@ -28,6 +29,11 @@ class ProduceListView(ListView):
             self.request.GET, queryset=self.get_queryset()
         )
         # context ={"filter":filter} 
+        context["popular_tags"] = ProduceTag.objects.annotate(
+            num_produces=Count("produce")
+        ).order_by("-num_produces")[:5]
+        context["categories"] = ProduceCategory.objects.select_related("user")
+        context["tags"] = ProduceTag.objects.select_related("user", "category")
         return context
     
 

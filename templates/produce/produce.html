@@ -61,7 +61,7 @@
   </div>
   <div class="card-body">
     {% for tag in tags %}
-    <a href="{% url 'produce-tags' tag.slug %}" class="href">
+    <a href="{% url 'produce-tag' tag.slug %}" class="href">
 <span class="badge text-bg-secondary">{{tag.name}}</span>
     </a>
     {% endfor %}
@@ -77,7 +77,7 @@
   </div>
   <div class="card-body">
     {% for tag in popular_tags %}
-    <a href="{% url 'produce-tags' tag.slug %}" class="href">{{tag.num_lands}} 
+    <a href="{% url 'produce-tag' tag.slug %}" class="href">{{tag.num_lands}} 
 <span class="badge text-bg-secondary">{{tag.name}}</span>
     </a>
     {% endfor %}
