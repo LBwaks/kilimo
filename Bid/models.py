@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
+from django.urls import reverse 
 from django_extensions.db.fields import AutoSlugField
 import uuid
 from ckeditor.fields import RichTextField
@@ -15,7 +16,7 @@ class Bid(models.Model):
     produce = models.ForeignKey(Produce, verbose_name=_(""), on_delete=models.CASCADE)
     charge =models.IntegerField(_("Charge"))
     reasons =RichTextField(_("Reasons For you charge"))
-    services =RichTextField(_("Other secondary Services "))
+    services =RichTextField(_("Other secondary Services "),blank=True, null=True)
     status = models.CharField(_(""),default="PENDING", max_length=50)
     approved_cancelled_time =models.DateTimeField(_(""),blank=True, null=True)
     created = models.DateTimeField( auto_now=False, auto_now_add=True)
@@ -36,6 +37,6 @@ class Bid(models.Model):
 
     def get_absolute_url(self):
         """Return absolute url for Bid."""
-        return ('')
+        return reverse ('bids:bid-details', kwargs={'slug': self.uuid})
 
     # TODO: Define custom methods here

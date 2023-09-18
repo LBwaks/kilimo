@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+  bids 
+{% endblock title %}
+    
+{% block content %}
+<H1>i am services </H1>
+
+<div class="container"> 
+    <div class="row">
+        <div class="col-md-8">
+            
+        
+            <div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><a href="{{bid.get_absolute_url}}">{{bid.charge}}</a> </h5>        
+        <p class="card-text"><small class="text-muted">{{bid.created}}</small></p>
+        <p class="card-text">Reasons: {{bid.reasons}}</p>
+        <p class="card-text">Services:{{bid.services}}</p>
+        <p class="card-text">Status:{{bid.status}}</p>
+        <a href="{% url 'bids:update-bids' bid.uuid %}" class="btn btn-danger">Update</a>
+        <a href="{% url 'bids:delete-bids' bid.uuid %}" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+      
+        </div>
+       
+    </div>
+</div>
+
+{% endblock content %}
