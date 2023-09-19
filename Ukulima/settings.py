@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "Produce",
     'Cart',
     'Bid',
+    'Pages',
     # 'Account',
     "Profile",
     "allauth",

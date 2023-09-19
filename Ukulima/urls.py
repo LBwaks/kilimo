@@ -29,5 +29,6 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("carts/", include("Cart.urls")),
     path("bids/", include("Bid.urls")),
+    path("", include('Pages.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
