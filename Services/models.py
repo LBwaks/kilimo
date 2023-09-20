@@ -141,7 +141,7 @@ class ServiceImage(models.Model):
     """Model definition for ServiceImage."""
 
     # TODO: Define fields here
-    service= models.ForeignKey(Service, verbose_name=_(""), on_delete=models.CASCADE)
+    service= models.ForeignKey(Service, verbose_name=_(""),related_name="service_images", on_delete=models.CASCADE)
     image = models.ImageField(_(""), upload_to="services", height_field=None, width_field=None, max_length=None)
     created = models.DateTimeField(_(""), auto_now=False, auto_now_add=True)
     
@@ -153,7 +153,7 @@ class ServiceImage(models.Model):
 
     def __str__(self):
         """Unicode representation of ServiceImage."""
-        pass
+        return self.service.title
 
     # def save(self):
     #     """Save method for ServiceImage."""
@@ -162,7 +162,8 @@ class ServiceImage(models.Model):
     def get_absolute_url(self):
         """Return absolute url for ServiceImage."""
         return ('')
-
+    # @property
+    
     # TODO: Define custom methods here
 
 class BookmarkedService(models.Model):

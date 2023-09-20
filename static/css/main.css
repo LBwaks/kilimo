@@ -5187,7 +5187,36 @@ blockquote span {
 .service-section {
   background-color: #fff;
 }
-
+.service-list-header{
+  padding:6px 8px 6px 45px
+}
+.filler-job-form i{
+    position:absolute;
+    top:48%;
+    -webkit-transform:translateY(-50%);
+    transform:translateY(-50%);
+    left:20px;
+    z-index:1;
+    color:#02af74;
+    font-size:20px
+}
+.service-grid-page-header-widget .popular-box{
+    position:relative;
+    padding:5px;
+    border-radius:5px;
+    margin-top:10px;
+    border:1px solid rgba(239,240,242,.65)
+}
+.service-grid-page-header-widget .popular-box .number{
+    text-align:center;
+    width:26px;
+    height:26px;
+    line-height:26px;
+    border-radius:5px;
+    font-size:14px;
+    color:#02af74;
+    background-color:rgba(2,175,116,.15)
+}
 .service-section .section-title {
   margin-bottom: 50px;
 }
@@ -5265,6 +5294,19 @@ blockquote span {
 .single-service-grid .service-content p {
   display: block;
   margin-top: 10px;
+}
+.single-service-grid .service-content .price {
+  display: block;
+  margin-top: 10px;
+  font-size: 16px;
+  color:#db7070;
+  font-weight: 400;
+}
+.single-service-grid .service-content .price:hover {
+  color: #7c388a;
+  letter-spacing: 1px;
+  border-bottom: solid;
+  border-bottom: #051441;
 }
 
 .single-service-grid .service-content .more-btn {
@@ -5753,10 +5795,56 @@ blockquote span {
 }
 
 /* News sidebar */
+.sidebar .accordion .accordion-item{
+    border:none
+}
+.sidebar .accordion .accordion-item .accordion-button{
+    background-color:#413E65;
+    color:#fff;
+    -webkit-box-shadow:none;
+    box-shadow:none;
+    font-size:18px;
+    font-weight:600;    
+    margin-bottom: 25px;
+    position: relative;   
+    line-height: 28px;
+    z-index: 1;
+    
+}
+.sidebar .accordion .accordion-item .accordion-button::after{
+    content:"\F0140";
+    font-family:'Material Design Icons';
+    background:0 0
+}
+.sidebar .acc-cat-widget.categories-widget ul li:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar .acc-cat-widget.categories-widget ul li:first-child a {
+  padding-top: 0;
+}
+
+.sidebar .acc-cat-widget.categories-widget ul li:last-child a {
+  padding-bottom: 0;
+  border: none;
+}
+
+.sidebar .acc-cat-widget.categories-widget ul li a {
+  font-size: 15px;
+  padding: 10px 0;
+  font-weight: 400;
+  display: block;
+  color: #e0e0e0;
+}
+
+.sidebar .acc-cat-widget.categories-widget ul li a:hover {
+  color: #fff;
+  padding-left: 10px;
+}
 .sidebar .widget {
   margin-bottom: 40px;
   overflow: hidden;
-  padding: 40px;
+  /* padding: 40px; */
   border-radius: 8px;
   background-color: #413E65;
 }

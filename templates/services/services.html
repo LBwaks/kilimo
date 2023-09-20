@@ -29,41 +29,85 @@
 
     <!-- Start service Singel Area -->
     <section class="section service-grid-page">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-md-12 col-12">
+                <div class="col-lg-8 col-md-12 col-12 border border-success">
                     <div class="row">
+                        <div class="service-grid-page-header">
+                            <div class="service-grid-page-header-search">
+                                 <div class="service-list-header">
+                                            <form method="GET" action="">
+                                                <div class="row g-2">
+                                                    <div class="col-lg-9 col-md-9 col-sm-6">
+                                                        <div class="filler-job-form">
+                                                            <i class="uil uil-briefcase-alt"></i>
+                                                            <input type="search" name ="title" class="form-control filter-job-input-box" id="exampleFormControlInput1" placeholder="eg, Tranport ">
+                                                        </div>
+                                                    </div><!--end col-->
+                                                    
+                                                    
+                                                     {% comment %} class="btn btn-primary w-100"><i class="uil uil-search"></i> Find Jobs {% endcomment %}
+                                                    <div class="col-lg-3 col-md-3 col-sm-6">
+                                                        <button class="btn btn-primary w-100 h-100 " type="submit"><i class="lni lni-search me-1"></i> Find Service</button>
+                                                    </div><!--end col-->
+                                                </div><!--end row-->
+                                            </form>
+                                        </div><!--end job-list-header-->
+
+                            </div>
+                            <div class="service-grid-page-header-widget mt-4">
+                                <h6> Popular </h6>
+                                <ul class="list-inline">
+                                    {% for tag in popular_tags %}
+                                            <li class="list-inline-item"><div class="popular-box d-flex align-items-center border border-1">
+                                                        <div class="number flex-shrink-0 me-2">
+                                                          {{tag.num_services}}  
+                                                        </div>
+                                                        <a href="{% url 'service-tags' tag.slug %}" class="primary-link stretched-link"><h6 class="fs-6 mb-0 text-muted fst-italic">{{tag.name}}</h6></a>
+                                                    </div>
+                                                </li>
+                                    {% endfor %}
+                                    
+                                    </ul>
+                            </div>
+                                
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for service in object_list %}
                         <div class="col-lg-12 col-md-12 col-12">
                             <!-- Start Single service Grid -->
                             <div class="single-service-grid">
                               <div class="row">
                                 <div class="col-md-4 col-sm-12 ">
                                   <div class="service-img  order-1">
-                                    <a href="service-single.html">
-                                        <img src="{% static 'images/blog/blog-1.jpg' %}" class="img-fluid" alt="#">
+                                    {% for image in service.service_images.all %}
+                                    <a href="{{image.service.get_absolute_url}}">
+                                        <img src="{{image.image.url}}" class="img-fluid" alt="#">
                                     </a>
+                                    {% endfor %}
+                                    
                                 </div>
 
                                 </div>
                                 <div class="col-md-8 col-sm-12">
                                   <div class="service-content order-2">
-                                    <a class="category" href="javascript:void(0)">Web Solution</a>
+                                    <a class="category" href="javascript:void(0)">{{service.category}}</a>
                                     <h4>
-                                        <a href="service-single.html">Make a better website solution for your
-                                            product.</a>
+                                        <a href="{{service.get_absolute_url}}">{{service.title}}</a>
                                     </h4>
                                     <ul class="list-inline">
-                                        <li class="list-inline-item"><p><i class="lni lni-user"></i> ohn Okelo.</p> </li>
-                                        <li class="list-inline-item"> <p> <i class="lni lni-map-marker"></i>  Muranga Kirigit.</p> </li>
-                                        <li class="list-inline-item"><p><i class="lni lni-timer"></i>   Nov 6, 2023</p> </li>
+                                        {% comment %} <li class="list-inline-item"><p><i class="lni lni-user"></i> ohn Okelo.</p> </li> {% endcomment %}
+                                        <li class="list-inline-item"> <p> <i class="lni lni-map-marker"></i>  {{service.county}}, {{service.sub_county}}</p> </li>
+                                        <li class="list-inline-item"><p><i class="lni lni-timer"></i>   {{service.created}}</p> </li>
                                        
                                     </ul>
                                     {% comment %} <p>Lorem ipsum dolor sit amet, adipscing elitr, sed diam nonumy eirmod tempor
                                         ividunt dolore
                                         magna.</p> {% endcomment %}
-                                    <a href="service-single.html" class="more-btn">Read service <i
-                                            class="lni lni-arrow-right"></i></a>
-                                    <li class="list-inline-item"><p><i class="lni lni-wallet"></i>  ksh 50,000 / season.</p> </li>
+                                       
+                                            <p class="price"><i class="lni lni-wallet"></i>  ksh {{service.price}} / {{service.period}}.</p> 
+                                        
                                 </div>
                                 </div>
                               
@@ -73,6 +117,29 @@
                             </div>
                             <!-- End Single service Grid -->
                         </div>
+                        {% empty %}
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <!-- Start Single service Grid -->
+                            <div class="single-service-grid">
+                              <div class="row">
+                                
+                                
+                                  <div class="service-content order-2">
+                                    
+                                    <p>No Services Found !</p>
+                                       
+                                           
+                                        
+                                </div>
+                                
+                              
+                                
+                                
+                              </div>
+                            </div>
+                            <!-- End Single service Grid -->
+                        </div>
+                        {% endfor %}
                         
                     </div>
                     <!-- Pagination -->
@@ -87,19 +154,63 @@
                     </div>
                     <!--/ End Pagination -->
                 </div>
-                <aside class="col-lg-4 col-md-12 col-12">
+                <aside class="col-lg-4 col-md-12 col-12 border border-danger">
                     <div class="sidebar">
-                        <!-- Start Single Widget -->
-                        <div class="widget search-widget">
-                            <h5 class="widget-title">Search This Site</h5>
-                            <form action="#">
-                                <input type="text" placeholder="Search ...">
-                                <button type="submit"><i class="lni lni-search-alt"></i></button>
-                            </form>
+                        <!-- Start Filter Widget -->
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="filterHeader">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#service-filter" aria-expanded="true" aria-controls="service-filter">
+                                    Service Filter
+                                </button>
+                                </h2>
+                                <div id="service-filter" class="accordion-collapse collapse show" aria-labelledby="filterHeader" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <form action="{% url 'service-filter' %}" method="get">
+                                        {% csrf_token %}
+                                        {{filter.form|crispy}}
+                                        {% comment %} <button type="submit">Filter</button> {% endcomment %}
+                                            <div class="col-12 pt-3">
+                                                <button class="btn btn-success w-100 h-100 " type="submit"> Filter Service</button>
+                                                    </div>
+                                        </form>
+                                </div>
+                                </div>
+                            </div>
+                                        </div>
+
+                                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="categoriesHeader">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Categories
+                                </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="categoriesHeader" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="acc-cat-widget categories-widget">
+                           
+                            <ul class="custom">
+                                {% for category in categories %}
+                                <li>
+                                    <a href="{% url 'service-category' category.slug %}">{{category.title}}</a>
+                                </li>
+                                {% empty %}
+                                <p class="text-center"> No Categories Found !</p>
+                                {% endfor %}
+                                
+                                
+                            </ul>
                         </div>
-                        <!-- End Single Widget -->
+                                </div>
+                                </div>
+                            </div>
+                                        </div>
+                        
+                        
+                        <!-- End Filter Widget -->
                         <!-- Start Single Widget -->
-                        <div class="widget popular-feeds">
+                        {% comment %} <div class="widget popular-feeds">
                             <h5 class="widget-title">Popular Feeds</h5>
                             <div class="popular-feed-loop">
                                 <div class="single-popular-feed">
@@ -127,27 +238,21 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
                         <div class="widget categories-widget">
                             <h5 class="widget-title">Categories</h5>
                             <ul class="custom">
+                                {% for category in categories %}
                                 <li>
-                                    <a href="javascript:void(0)">Web Design</a>
+                                    <a href="{% url 'service-category' category.slug %}">{{category.title}}</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0)">Branding</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Graphic Design</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Marketing</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Wireframing</a>
-                                </li>
+                                {% empty %}
+                                <p class="text-center"> No Categories Found !</p>
+                                {% endfor %}
+                                
+                                
                             </ul>
                         </div>
                         <!-- End Single Widget -->
@@ -155,14 +260,13 @@
                         <div class="widget popular-tag-widget">
                             <h5 class="widget-title">Popular Tags</h5>
                             <div class="tags">
-                                <a href="javascript:void(0)">Popular</a>
-                                <a href="javascript:void(0)">Design</a>
-                                <a href="javascript:void(0)">UX</a>
-                                <a href="javascript:void(0)">Consult</a>
-                                <a href="javascript:void(0)">Ui</a>
-                                <a href="javascript:void(0)">Interview</a>
-                                <a href="javascript:void(0)">Develop</a>
-                                <a href="javascript:void(0)">Business</a>
+                                {% for tag in tags %}
+                                <a href="{% url 'service-tags' tag.slug %}">{{tag.name}}</a>
+                                {% empty %}
+                                <p class="text-center"> No Tags Found !</p>
+                                {% endfor %}
+                                
+                                
                             </div>
                         </div>
                         <!-- End Single Widget -->
@@ -209,24 +313,7 @@
     <div class="row">
         <div class="col-md-8">
             
-        {% for service in object_list %}
-            <div class="card mb-3" style="max-width: 540px;">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="..." class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title"><a href="{{service.get_absolute_url}}">{{service.title}}</a> </h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-        {% empty %}
-        <p>No lands found </p>
-        {% endfor %}
+        
 
         </div>
         <d<div class="col-md-4">
@@ -236,39 +323,9 @@
               {{filter.form|crispy}}
               <button type="submit">Filter</button>
             </form>
-            <div class="card text-center">
-  <div class="card-header">
-    Categories
-  </div>
-  <div class="card-body">
-    
-    {% for category in categories %}
-    <a href="{% url 'service-category' category.slug %}"><span class="badge text-bg-secondary">   {{category.title}} </span></a>
-    {% empty %}
-    no category
-    {% endfor %}
-    
+            
 
-  </div>
-  
-</div>
 
-<div class="card text-center">
-  <div class="card-header">
-    Tags
-  </div>
-  <div class="card-body">
-    {% for tag in tags %}
-    <a href="{% url 'service-tags' tag.slug %}" class="href">
-<span class="badge text-bg-secondary">{{tag.name}}</span>
-    </a>
-    {% endfor %}
-    
-    
-
-  </div>
-  
-</div>
 <div class="card text-center">
   <div class="card-header">
     Popular Tags
@@ -290,3 +347,4 @@
 </div>
 
 {% endblock content %}
+ 

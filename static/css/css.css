@@ -791,3 +791,29 @@ blockquote span {
 .service-grid-page .sidebar {
   margin-top: 30px;
 }
+
+.sidebar .acc-cat-widget.categories-widget ul li:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar .acc-cat-widget.categories-widget ul li:first-child a {
+  padding-top: 0;
+}
+
+.sidebar .acc-cat-widget.categories-widget ul li:last-child a {
+  padding-bottom: 0;
+  border: none;
+}
+
+.sidebar .acc-cat-widget.categories-widget ul li a {
+  font-size: 15px;
+  padding: 10px 0;
+  font-weight: 400;
+  display: block;
+  color: #e0e0e0;
+}
+
+.sidebar .acc-cat-widget.categories-widget ul li a:hover {
+  color: #fff;
+  padding-left: 10px;
+}

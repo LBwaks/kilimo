@@ -12,13 +12,13 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6 col-12">
                     <div class="breadcrumbs-content">
-                        <h1 class="page-title">Blog Grid Sidebar</h1>
+                        <h1 class="page-title">service Grid Sidebar</h1>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
                     <ul class="breadcrumb-nav">
                         <li><a href="index-2.html">Home</a></li>
-                        <li>Blog Grid Sidebar</li>
+                        <li>service Grid Sidebar</li>
                     </ul>
                 </div>
             </div>
@@ -26,151 +26,161 @@
     </div>
     <!-- End Breadcrumbs -->
 
-    <!-- Start Blog Singel Area -->
-    <section class="section blog-grid-page">
-        <div class="container">
+    <!-- Start service Singel Area -->
+    <section class="section service-grid-page">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-8 col-md-12 col-12">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <!-- Start Single Blog Grid -->
-                            <div class="single-blog-grid">
-                                <div class="blog-img">
-                                    <a href="blog-single.html">
-                                        <img src="assets/images/blog/blog-1.jpg" alt="#">
+                        {% for service in object_list %}
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <!-- Start Single service Grid -->
+                            <div class="single-service-grid">
+                                <div class="service-img">
+                                    {% for image in service.service_images.all %}
+                                   
+                                    <a href="service-single.html">
+                                        <img src=" {{image.image.url}}" alt="#">
                                     </a>
+                                    {% endfor %}
+                                    
                                 </div>
-                                <div class="blog-content">
-                                    <a class="category" href="javascript:void(0)">Web Solution</a>
+                                <div class="service-content">
+                                    <a class="category" href="javascript:void(0)">{{service.category}}</a>
                                     <h4>
-                                        <a href="blog-single.html">Make a better website solution for your
-                                            product.</a>
+                                        <a href="{{service.get_absolute_url}}">{{service.title}}</a>
                                     </h4>
-                                    <p>Lorem ipsum dolor sit amet, adipscing elitr, sed diam nonumy eirmod tempor
-                                        ividunt dolore
-                                        magna.</p>
-                                    <a href="blog-single.html" class="more-btn">Read Blog <i
-                                            class="lni lni-arrow-right"></i></a>
+                                    <ul class="list-inline">
+                                        {% comment %} <li class="list-inline-item"><p><i class="lni lni-user"></i> ohn Okelo.</p> </li> {% endcomment %}
+                                        <li class="list-inline-item"> <p> <i class="lni lni-map-marker"></i>  {{service.county}}, {{service.sub_county}}</p> </li>
+                                        <li class="list-inline-item"><p><i class="lni lni-timer"></i>   {{service.created}}</p> </li>
+                                       
+                                    </ul>
+                                    <p class="price"><i class="lni lni-wallet"></i>  ksh {{service.price}} / {{service.period}}.</p> 
+                                    
                                 </div>
                             </div>
-                            <!-- End Single Blog Grid -->
+                            <!-- End Single service Grid -->
                         </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <!-- Start Single Blog -->
-                            <div class="single-blog-grid">
-                                <div class="blog-img">
-                                    <a href="blog-single.html">
-                                        <img src="assets/images/blog/blog-2.jpg" alt="#">
+                        {% endfor %}
+
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <!-- Start Single service -->
+                            <div class="single-service-grid">
+                                <div class="service-img">
+                                    <a href="service-single.html">
+                                        <img src="assets/images/service/service-2.jpg" alt="#">
                                     </a>
                                 </div>
-                                <div class="blog-content">
+                                <div class="service-content">
                                     <a class="category" href="javascript:void(0)">UI Interface</a>
                                     <h4>
-                                        <a href="blog-single.html">The Science of Color Contrast — An Expert
+                                        <a href="service-single.html">The Science of Color Contrast — An Expert
                                             Designer’s
                                             Guide</a>
                                     </h4>
                                     <p>Lorem ipsum dolor sit amet, adipscing elitr, sed diam nonumy eirmod tempor
                                         ividunt dolore
                                         magna.</p>
-                                    <a href="blog-single.html" class="more-btn">Read Blog <i
+                                    <a href="service-single.html" class="more-btn">Read service <i
                                             class="lni lni-arrow-right"></i></a>
                                 </div>
                             </div>
-                            <!-- End Single Blog Grid -->
+                            <!-- End Single service Grid -->
                         </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <!-- Start Single Blog Grid -->
-                            <div class="single-blog-grid">
-                                <div class="blog-img">
-                                    <a href="blog-single.html">
-                                        <img src="assets/images/blog/blog-3.jpg" alt="#">
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <!-- Start Single service Grid -->
+                            <div class="single-service-grid">
+                                <div class="service-img">
+                                    <a href="service-single.html">
+                                        <img src="assets/images/service/service-3.jpg" alt="#">
                                     </a>
                                 </div>
-                                <div class="blog-content">
+                                <div class="service-content">
                                     <a class="category" href="javascript:void(0)">Web Interface</a>
                                     <h4>
-                                        <a href="blog-single.html">SEO Made Simple: A Step by Step Guide for
+                                        <a href="service-single.html">SEO Made Simple: A Step by Step Guide for
                                             2020.</a>
                                     </h4>
                                     <p>Lorem ipsum dolor sit amet, adipscing elitr, sed diam nonumy eirmod tempor
                                         ividunt dolore
                                         magna.</p>
-                                    <a href="blog-single.html" class="more-btn">Read Blog <i
+                                    <a href="service-single.html" class="more-btn">Read service <i
                                             class="lni lni-arrow-right"></i></a>
                                 </div>
                             </div>
-                            <!-- End Single Blog Grid -->
+                            <!-- End Single service Grid -->
                         </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <!-- Start Single Blog Grid -->
-                            <div class="single-blog-grid">
-                                <div class="blog-img">
-                                    <a href="blog-single.html">
-                                        <img src="assets/images/blog/blog-1.jpg" alt="#">
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <!-- Start Single service Grid -->
+                            <div class="single-service-grid">
+                                <div class="service-img">
+                                    <a href="service-single.html">
+                                        <img src="assets/images/service/service-1.jpg" alt="#">
                                     </a>
                                 </div>
-                                <div class="blog-content">
+                                <div class="service-content">
                                     <a class="category" href="javascript:void(0)">Web Solution</a>
                                     <h4>
-                                        <a href="blog-single.html">Make a better website solution for your
+                                        <a href="service-single.html">Make a better website solution for your
                                             product.</a>
                                     </h4>
                                     <p>Lorem ipsum dolor sit amet, adipscing elitr, sed diam nonumy eirmod tempor
                                         ividunt dolore
                                         magna.</p>
-                                    <a href="blog-single.html" class="more-btn">Read Blog <i
+                                    <a href="service-single.html" class="more-btn">Read service <i
                                             class="lni lni-arrow-right"></i></a>
                                 </div>
                             </div>
-                            <!-- End Single Blog Grid -->
+                            <!-- End Single service Grid -->
                         </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <!-- Start Single Blog -->
-                            <div class="single-blog-grid">
-                                <div class="blog-img">
-                                    <a href="blog-single.html">
-                                        <img src="assets/images/blog/blog-2.jpg" alt="#">
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <!-- Start Single service -->
+                            <div class="single-service-grid">
+                                <div class="service-img">
+                                    <a href="service-single.html">
+                                        <img src="assets/images/service/service-2.jpg" alt="#">
                                     </a>
                                 </div>
-                                <div class="blog-content">
+                                <div class="service-content">
                                     <a class="category" href="javascript:void(0)">UI Interface</a>
                                     <h4>
-                                        <a href="blog-single.html">The Science of Color Contrast — An Expert
+                                        <a href="service-single.html">The Science of Color Contrast — An Expert
                                             Designer’s
                                             Guide</a>
                                     </h4>
                                     <p>Lorem ipsum dolor sit amet, adipscing elitr, sed diam nonumy eirmod tempor
                                         ividunt dolore
                                         magna.</p>
-                                    <a href="blog-single.html" class="more-btn">Read Blog <i
+                                    <a href="service-single.html" class="more-btn">Read service <i
                                             class="lni lni-arrow-right"></i></a>
                                 </div>
                             </div>
-                            <!-- End Single Blog Grid -->
+                            <!-- End Single service Grid -->
                         </div>
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <!-- Start Single Blog Grid -->
-                            <div class="single-blog-grid">
-                                <div class="blog-img">
-                                    <a href="blog-single.html">
-                                        <img src="assets/images/blog/blog-3.jpg" alt="#">
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <!-- Start Single service Grid -->
+                            <div class="single-service-grid">
+                                <div class="service-img">
+                                    <a href="service-single.html">
+                                        <img src="assets/images/service/service-3.jpg" alt="#">
                                     </a>
                                 </div>
-                                <div class="blog-content">
+                                <div class="service-content">
                                     <a class="category" href="javascript:void(0)">Web Interface</a>
                                     <h4>
-                                        <a href="blog-single.html">SEO Made Simple: A Step by Step Guide for
+                                        <a href="service-single.html">SEO Made Simple: A Step by Step Guide for
                                             2020.</a>
                                     </h4>
                                     <p>Lorem ipsum dolor sit amet, adipscing elitr, sed diam nonumy eirmod tempor
                                         ividunt dolore
                                         magna.</p>
-                                    <a href="blog-single.html" class="more-btn">Read Blog <i
+                                    <a href="service-single.html" class="more-btn">Read service <i
                                             class="lni lni-arrow-right"></i></a>
                                 </div>
                             </div>
-                            <!-- End Single Blog Grid -->
+                            <!-- End Single service Grid -->
                         </div>
                     </div>
                     <!-- Pagination -->
@@ -203,7 +213,7 @@
                                 <div class="single-popular-feed">
                                     <div class="feed-desc">
                                         <a href="javascript:void(0)" class="cetagory">Creative</a>
-                                        <h6 class="post-title"><a href="blog-single.html">Bringing Great Design
+                                        <h6 class="post-title"><a href="service-single.html">Bringing Great Design
                                                 Ideas To Completion</a></h6>
                                         <span class="time"><i class="lni lni-calendar"></i> 05th Nov 2023</span>
                                     </div>
@@ -211,7 +221,7 @@
                                 <div class="single-popular-feed">
                                     <div class="feed-desc">
                                         <a href="javascript:void(0)" class="cetagory">Jobs</a>
-                                        <h6 class="post-title"><a href="blog-single.html">Live Life Smart And
+                                        <h6 class="post-title"><a href="service-single.html">Live Life Smart And
                                                 Focus On The Positive</a></h6>
                                         <span class="time"><i class="lni lni-calendar"></i> 24th March 2023</span>
                                     </div>
@@ -219,7 +229,7 @@
                                 <div class="single-popular-feed">
                                     <div class="feed-desc">
                                         <a href="javascript:void(0)" class="cetagory">Marketing</a>
-                                        <h6 class="post-title"><a href="blog-single.html">How did we get 1M+
+                                        <h6 class="post-title"><a href="service-single.html">How did we get 1M+
                                                 visitors in 30 days without anything!</a></h6>
                                         <span class="time"><i class="lni lni-calendar"></i> 30th Jan 2023</span>
                                     </div>
@@ -269,7 +279,7 @@
             </div>
         </div>
     </section>
-    <!-- End Blog Grid -->
+    <!-- End service Grid -->
 
     <!-- Start Clients Logo Area -->
     <div class="client-logo">
