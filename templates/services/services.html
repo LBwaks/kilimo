@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 {% block title %}
     services
 {% endblock title %}
@@ -31,9 +32,9 @@
     <section class="section service-grid-page">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-md-12 col-12 border border-success">
+                <div class="col-lg-8 col-md-12 col-12 bordler borderp-success">
                     <div class="row">
-                        <div class="service-grid-page-header">
+                        <div class="service-grid-page-header mot-3">
                             <div class="service-grid-page-header-search">
                                  <div class="service-list-header">
                                             <form method="GET" action="">
@@ -83,7 +84,7 @@
                                   <div class="service-img  order-1">
                                     {% for image in service.service_images.all %}
                                     <a href="{{image.service.get_absolute_url}}">
-                                        <img src="{{image.image.url}}" class="img-fluid" alt="#">
+                                        <img src="{{image.image.url}}" class="img-fluifd" alt="#">
                                     </a>
                                     {% endfor %}
                                     
@@ -92,21 +93,21 @@
                                 </div>
                                 <div class="col-md-8 col-sm-12">
                                   <div class="service-content order-2">
-                                    <a class="category" href="javascript:void(0)">{{service.category}}</a>
+                                    <a class="category" href="{% url 'service-category' service.category.slug %}">{{service.category}}</a>
                                     <h4>
                                         <a href="{{service.get_absolute_url}}">{{service.title}}</a>
                                     </h4>
                                     <ul class="list-inline">
                                         {% comment %} <li class="list-inline-item"><p><i class="lni lni-user"></i> ohn Okelo.</p> </li> {% endcomment %}
                                         <li class="list-inline-item"> <p> <i class="lni lni-map-marker"></i>  {{service.county}}, {{service.sub_county}}</p> </li>
-                                        <li class="list-inline-item"><p><i class="lni lni-timer"></i>   {{service.created}}</p> </li>
+                                        <li class="list-inline-item"><p><i class="lni lni-timer"></i>   {{service.created |naturalday}}</p> </li>
                                        
                                     </ul>
                                     {% comment %} <p>Lorem ipsum dolor sit amet, adipscing elitr, sed diam nonumy eirmod tempor
                                         ividunt dolore
                                         magna.</p> {% endcomment %}
                                        
-                                            <p class="price"><i class="lni lni-wallet"></i>  ksh {{service.price}} / {{service.period}}.</p> 
+                                            <p class="price"><i class="lni lni-wallet"></i>  ksh {{service.price| intcomma}} / {{service.period}}.</p> 
                                         
                                 </div>
                                 </div>
@@ -154,7 +155,7 @@
                     </div>
                     <!--/ End Pagination -->
                 </div>
-                <aside class="col-lg-4 col-md-12 col-12 border border-danger">
+                <aside class="col-lg-4 col-md-12 col-12 borlder bordepr-danger">
                     <div class="sidebar">
                         <!-- Start Filter Widget -->
                         <div class="accordion" id="accordionExample">
@@ -179,7 +180,7 @@
                             </div>
                                         </div>
 
-                                        <div class="accordion" id="accordionExample">
+                                        {% comment %} <div class="accordion" id="accordionExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="categoriesHeader">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -188,7 +189,7 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="categoriesHeader" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <div class="acc-cat-widget categories-widget">
+                                    <div class="acc-cat-widget categories-widget mt-1">
                            
                             <ul class="custom">
                                 {% for category in categories %}
@@ -205,7 +206,7 @@
                                 </div>
                                 </div>
                             </div>
-                                        </div>
+                                        </div> {% endcomment %}
                         
                         
                         <!-- End Filter Widget -->
@@ -306,45 +307,6 @@
     </div>
     <!-- End Clients Logo Area -->
 
-
-    <H1>i am services </H1>
-
-<div class="container"> 
-    <div class="row">
-        <div class="col-md-8">
-            
-        
-
-        </div>
-        <d<div class="col-md-4">
-            <H1>i am sidebar</H1>
-            <form action="{% url 'service-filter' %}" method="get">
-              {% csrf_token %}
-              {{filter.form|crispy}}
-              <button type="submit">Filter</button>
-            </form>
-            
-
-
-<div class="card text-center">
-  <div class="card-header">
-    Popular Tags
-  </div>
-  <div class="card-body">
-    {% for tag in popular_tags %}
-    <a href="{% url 'service-tags' tag.slug %}" class="href">{{tag.num_lands}} 
-<span class="badge text-bg-secondary">{{tag.name}}</span>
-    </a>
-    {% endfor %}
-    
-    
-
-  </div>
-  
-</div>
-        </div>
-    </div>
-</div>
 
 {% endblock content %}
  
