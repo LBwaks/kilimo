@@ -13,6 +13,11 @@ class ServiceForm(forms.ModelForm):
     #         attrs={"required": True, "class": "form-control image"}
     #     ),
     # )
+    images = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={
+        'required': False,
+        'class': 'form-control images',
+        # 'multiple': True
+    }))
     tags = forms.ModelMultipleChoiceField(
         label="Tags",
         widget=forms.SelectMultiple(
