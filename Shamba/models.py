@@ -221,7 +221,7 @@ class LandImages(models.Model):
 
     def __str__(self):
         """Unicode representation of LandImages."""
-        pass
+        return self.land.land_id
 
     # def save(self):
     #     """Save method for LandImages."""
@@ -230,6 +230,7 @@ class LandImages(models.Model):
     def get_absolute_url(self):
         """Return absolute url for LandImages."""
         return ""
+    
 
     # TODO: Define custom methods here
 

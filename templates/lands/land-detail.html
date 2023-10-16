@@ -11,6 +11,23 @@
         <div class="col-md-8">
 <div class="card">
   <div class="card-body">
+    {% comment %} {% for image in land.land_images.all %}
+    <img src="{{image.images.url}}" alt="ooo">
+    {% endfor %} {% endcomment %}
+    <div>
+                                            <ul id="lightSlider">
+                                          {% for image in land.land_images.all %}
+                                          <li data-thumb="{{image.images.url}}">
+                                            <a href="{{image.images.url}}" data-fancybox="gallery">
+                                          <img src="{{image.images.url}}" alt="..." class="img-fluid">
+                                          </a>
+		        </li>
+                                          {% endfor %}
+
+  
+                                            </ul>
+                                            
+                                        </div>
     <h5 class="card-title">Card title</h5>
     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>

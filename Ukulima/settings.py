@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     # installed
     "ckeditor",
-    "django_browser_reload",
+    # "django_browser_reload",
     "crispy_forms",
     "crispy_bootstrap5",
     'formtools',
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "taggit",
     'django_filters',
     "phonenumber_field",
+    "django_browser_reload",
     # created
     "Shamba",
     "Tools",

@@ -1,7 +1,7 @@
 from typing import Any
 from django.contrib import admin
 
-from .models import LeasePeriod, Land,LandCategory,LandCoordiates,LandTag
+from .models import LeasePeriod, Land,LandCategory,LandCoordiates,LandTag,LandImages
 
 # Register your models here.
 
@@ -94,3 +94,18 @@ class LandTagAdmin(admin.ModelAdmin):
     def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
         obj.user = request.user
         return super().save_model(request, obj, form, change)
+
+@admin.register(LandImages)
+class LandImagesAdmin(admin.ModelAdmin):
+    '''Admin View for LandImages'''
+
+    list_display = ('land','images')
+    # list_filter = ('',)
+    # inlines = [
+    #     Inline,
+    # ]
+    # raw_id_fields = ('',)
+    # readonly_fields = ('',)
+    # search_fields = ('',)
+    # date_hierarchy = ''
+    # ordering = ('',)
