@@ -10,7 +10,7 @@ class LandFilter(django_filters.FilterSet):
     period_lease=django_filters.ModelChoiceFilter(queryset = LeasePeriod.objects.all()),
     county =django_filters.ChoiceFilter(choises = COUNTY),
     sub_county=django_filters.ChoiceFilter(choices=SUBCOUNTY),
-    location= django_filters.ChoiceFilter(choices=LOCATION),
+    # location= django_filters.ChoiceFilter(choices=LOCATION),
     
     class Meta:
         model = Land
@@ -22,5 +22,5 @@ class LandFilter(django_filters.FilterSet):
             "period_lease",
             "county",
             "sub_county",
-            "location",
+            # "location",
         ]

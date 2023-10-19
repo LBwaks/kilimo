@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'formtools',
     'leaflet',
     "taggit",
+    "debug_toolbar",
     'django_filters',
     "phonenumber_field",
     "django_browser_reload",
@@ -78,6 +79,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
+     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -108,7 +110,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "Ukulima.wsgi.application"
-
+# for debug toolbar 
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
